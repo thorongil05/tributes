@@ -11,6 +11,7 @@ import { InvestmentsService } from 'src/app/services/investments.service';
   styleUrls: ['./bond-forecaster.component.scss'],
 })
 export class BondForecasterComponent implements OnInit {
+  private _selectedBondType?: BondType;
   private _bond?: Bond;
   private _bondTypes: BondType[] = [];
   private _formGroup: FormGroup = new FormGroup({
@@ -38,12 +39,29 @@ export class BondForecasterComponent implements OnInit {
     return this._formGroup;
   }
 
+  public get bond(): Bond | undefined {
+    return this._bond;
+  }
+  public set bond(value: Bond | undefined) {
+    this._bond = value;
+  }
+
+  public get selectedBondType(): BondType | undefined {
+    return this._selectedBondType;
+  }
+  public set selectedBondType(value: BondType | undefined) {
+    this._selectedBondType = value;
+  }
+
   public compute() {
     console.log(this.formGroup);
     if (!this.formGroup.valid) {
       alert('La form non é valida');
       return;
     }
-    alert('La form é valida');
+    this.bond = this.investmentsService.extractBondDataFromName(
+      this.formGroup.get('name')?.value,
+      BondType.BTP
+    );
   }
 }
