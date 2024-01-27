@@ -1,6 +1,95 @@
-<form action="">
-  <select class="form-select" aria-label="Default select example">
-    <option selected>Seleziona il tipo di obbligazione</option>
-    <option *ngFor="let bondType of bondTypes" value="1">{{ bondType }}</option>
-  </select>
-</form>
+<div class="container">
+  <h2>Previsioni</h2>
+  <div class="row">
+    <form action="">
+      <select class="form-select" aria-label="Default select example">
+        <option selected>Seleziona il tipo di obbligazione</option>
+        <option *ngFor="let bondType of bondTypes" value="1">
+          {{ bondType }}
+        </option>
+      </select>
+    </form>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-6">
+      <div class="h3">Dati</div>
+      <form action="" [formGroup]="formGroup" (submit)="compute()">
+        <label for="nameInput" class="form-label">Nome obbligazione</label>
+        <input
+          id="nameInput"
+          type="text"
+          class="form-control"
+          formControlName="name"
+          placeholder="BTP-DDMMYY X.XX%"
+        />
+        <div
+          *ngIf="
+            formGroup.get('name')?.invalid &&
+            formGroup.get('name')?.errors &&
+            (formGroup.get('name')?.dirty || formGroup.get('name')?.touched)
+          "
+        >
+          <small
+            class="text-danger"
+            *ngIf="formGroup.get('name')?.hasError('required')"
+          >
+            Il campo é obbligatorio.
+          </small>
+          <small
+            class="text-danger"
+            *ngIf="formGroup.get('name')?.hasError('pattern')"
+          >
+            Il campo non rispetta l'espressione regolare.
+          </small>
+        </div>
+        <br />
+        <label class="form-label" for="isinInput">ISIN</label>
+        <input
+          id="isinInput"
+          class="form-control"
+          type="text"
+          formControlName="isin"
+          placeholder="ITXXXXXXXXXY"
+          [class.invalid]="true"
+        />
+        <div
+          *ngIf="
+            formGroup.get('isin')?.invalid &&
+            formGroup.get('isin')?.errors &&
+            (formGroup.get('isin')?.dirty || formGroup.get('isin')?.touched)
+          "
+        >
+          <small
+            class="text-danger"
+            *ngIf="formGroup.get('isin')?.hasError('required')"
+          >
+            Il campo é obbligatorio.
+          </small>
+          <small
+            class="text-danger"
+            *ngIf="formGroup.get('isin')?.hasError('pattern')"
+          >
+            Il campo non rispetta l'espressione regolare.
+          </small>
+        </div>
+        <br />
+        <div class="row">
+          <button
+            class="btn btn-primary"
+            type="submit"
+            [disabled]="formGroup.invalid"
+          >
+            Calcola
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="col-6">
+      <h3>Dati derivati</h3>
+      <div><span>Cedola annuale</span><span></span></div>
+      <div><span>Scadenza</span><span></span></div>
+      <div><span>Periodo rimanente</span><span></span></div>
+    </div>
+  </div>
+</div>
