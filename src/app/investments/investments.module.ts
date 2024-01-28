@@ -5,7 +5,7 @@ import { InvestmentsRoutingModule } from './investments-routing.module';
 import { BondForecasterComponent } from './bond-forecaster/bond-forecaster.component';
 import { BondsOverviewComponent } from './bonds-overview/bonds-overview.component';
 import { SharesOverviewComponent } from './shares-overview/shares-overview.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -13,6 +13,11 @@ import { ReactiveFormsModule } from '@angular/forms';
     BondsOverviewComponent,
     SharesOverviewComponent,
   ],
-  imports: [CommonModule, InvestmentsRoutingModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    InvestmentsRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
+  ],
 })
 export class InvestmentsModule {}

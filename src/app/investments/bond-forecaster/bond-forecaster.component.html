@@ -1,17 +1,18 @@
 <div class="container">
   <h2>Previsioni</h2>
   <div class="row">
-    <form action="">
-      <select class="form-select" aria-label="Default select example">
-        <option selected>Seleziona il tipo di obbligazione</option>
-        <option *ngFor="let bondType of bondTypes" value="1">
-          {{ bondType }}
-        </option>
-      </select>
-    </form>
+    <select
+      [(ngModel)]="selectedBondType"
+      class="form-select"
+      aria-label="Default select example"
+    >
+      <option *ngFor="let bondType of bondTypes" [ngValue]="bondType">
+        {{ bondType }}
+      </option>
+    </select>
   </div>
   <br />
-  <div class="row" ngIf="">
+  <div class="row" *ngIf="isBTPSelected()">
     <div class="col-6">
       <div class="h3">Dati</div>
       <form action="" [formGroup]="formGroup" (submit)="compute()">

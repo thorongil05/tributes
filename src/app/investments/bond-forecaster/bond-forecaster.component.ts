@@ -11,7 +11,7 @@ import { InvestmentsService } from 'src/app/services/investments.service';
   styleUrls: ['./bond-forecaster.component.scss'],
 })
 export class BondForecasterComponent implements OnInit {
-  private _selectedBondType?: BondType;
+  private _selectedBondType?: BondType | undefined;
   private _bond?: Bond;
   private _bondTypes: BondType[] = [];
   private _formGroup: FormGroup = new FormGroup({
@@ -31,6 +31,13 @@ export class BondForecasterComponent implements OnInit {
     this._bondTypes = this.investmentsService.getBondTypes();
   }
 
+  public get selectedBondType(): BondType | undefined {
+    return this._selectedBondType;
+  }
+  public set selectedBondType(value: BondType | undefined) {
+    this._selectedBondType = value;
+  }
+
   public get bondTypes(): BondType[] {
     return this._bondTypes;
   }
@@ -46,11 +53,8 @@ export class BondForecasterComponent implements OnInit {
     this._bond = value;
   }
 
-  public get selectedBondType(): BondType | undefined {
-    return this._selectedBondType;
-  }
-  public set selectedBondType(value: BondType | undefined) {
-    this._selectedBondType = value;
+  public isBTPSelected() {
+    return this.selectedBondType == BondType.BTP;
   }
 
   public compute() {
