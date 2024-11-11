@@ -8,6 +8,7 @@ import { SideBarComponent } from './side-bar/side-bar.component';
 import { InvestmentsModule } from './investments/investments.module';
 import { FeaturesModule } from './features/features.module';
 import { NgxGraphModule } from '@swimlane/ngx-graph';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, SideBarComponent],
@@ -18,7 +19,9 @@ import { NgxGraphModule } from '@swimlane/ngx-graph';
     FeaturesModule,
     NgxGraphModule,
   ],
-  providers: [],
+  providers: [
+    provideAnimationsAsync()
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
