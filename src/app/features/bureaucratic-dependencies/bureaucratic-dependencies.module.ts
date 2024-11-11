@@ -2,16 +2,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { BureaucraticDependenciesRoutingModule } from './bureaucratic-dependencies-routing.module';
-import { DependencyTreeComponent } from './dependency-tree/dependency-tree.component';
-
+import { NgxGraphModule } from '@swimlane/ngx-graph';
+import { DependencyGraphComponent } from './dependency-graph/dependency-graph.component';
 
 @NgModule({
-  declarations: [
-    DependencyTreeComponent
-  ],
+  declarations: [DependencyGraphComponent],
   imports: [
     CommonModule,
-    BureaucraticDependenciesRoutingModule
-  ]
+    BureaucraticDependenciesRoutingModule,
+    NgxGraphModule,
+  ],
 })
-export class BureaucraticDependenciesModule { }
+export class BureaucraticDependenciesModule {}

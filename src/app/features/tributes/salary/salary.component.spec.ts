@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DependencyTreeComponent } from './dependency-tree.component';
+import { SalaryComponent } from './salary.component';
 
-describe('DependencyTreeComponent', () => {
-  let component: DependencyTreeComponent;
-  let fixture: ComponentFixture<DependencyTreeComponent>;
+describe('SalaryComponent', () => {
+  let component: SalaryComponent;
+  let fixture: ComponentFixture<SalaryComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DependencyTreeComponent ]
+      declarations: [ SalaryComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DependencyTreeComponent);
+    fixture = TestBed.createComponent(SalaryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
