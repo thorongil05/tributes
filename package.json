@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^18.2.11",
-    "@angular/cli": "~16.2.16",
+    "@angular/cli": "~17.3.11",
     "@angular/compiler-cli": "^18.2.11",
     "@types/d3-dispatch": "^3.0.6",
     "@types/d3-drag": "^3.0.7",
