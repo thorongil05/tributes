@@ -21,70 +21,81 @@
       </div>
       <div class="row">
         <mat-label>Social Security Contributions Rate</mat-label>
-        <mat-slider>
-          <input
-            matSliderThumb
-            min="0"
-            max="100"
-            step="0.5"
-            formControlName="socialSecurityContributionsFormControl"
-            (change)="onSocialSecurityContributionsSliderChange()"
-          />
-        </mat-slider>
+        <mat-radio-group
+          formControlName="socialSecurityContributionsRateFormControl"
+          (change)="this.onSocialSecurityContributionsRateChange()"
+        >
+          @for (rate of socialSecurityRateList; track $index) {
+          <mat-radio-button value="{{ rate }}" [checked]="$index == 0"
+            >IVS ({{ rate | percent }})</mat-radio-button
+          >
+          }
+        </mat-radio-group>
       </div>
       <div class="row">
-        <mat-label>Income Taxation Rate</mat-label>
-        <mat-slider>
+        <mat-label class="mx-auto">Income Taxation Rate</mat-label>
+        <mat-slider
+          class="mx-auto"
+          [discrete]="true"
+          min="1"
+          max="100"
+          step="1"
+          showTickMarks
+          [displayWith]="formatLabel"
+        >
           <input
-            matSliderThumb
-            min="0"
-            max="100"
-            step="0.5"
             formControlName="incomeTaxationRateFormControl"
             (change)="onIncomeTaxationSliderChange()"
+            matSliderThumb
           />
         </mat-slider>
       </div>
     </form>
   </div>
+</div>
+<div class="row">
   <div class="col">
     <h1>Temp</h1>
     <div class="row">
       <div class="col">Reddito Annuo Lordo</div>
+      <div class="col">{{ grossSalary | number : "1.2-2" }}</div>
       <div class="col"></div>
-      <div class="col">{{ getGrossSalary() | number : "1.2-2" }}</div>
       <div class="col"></div>
     </div>
     <div class="row">
       <div class="col"></div>
-      <div class="col">Contributi Previdenziali</div>
       <div class="col"></div>
-      <div class="col">
-        {{ getSocialSecurityContributions() | number : "1.2-2" }} ({{
-          this.getSocialSecurityContributionsRate() | percent : "1.2-2"
+      <div class="col">Contributi Previdenziali</div>
+      <div class="col deduction">
+        {{ socialSecurityContributions | number : "1.2-2" }} ({{
+          this.socialSecurityContributionsRate | percent : "1.2-2"
         }})
       </div>
     </div>
     <div class="row">
       <div class="col">Reddito imponibile</div>
+      <div class="col">
+        {{ incomeBeforeTaxation | number : "1.2-2" }}
+      </div>
       <div class="col"></div>
-      <div class="col">{{ getIncomeBeforeTaxation() | number : "1.2-2" }}</div>
       <div class="col"></div>
     </div>
     <div class="row">
       <div class="col"></div>
-      <div class="col">IRPEF</div>
       <div class="col"></div>
-      <div class="col">
-        {{ getIncomeTaxation() | number : "1.2-2" }} ({{
-          getIncomeTaxationRate() | percent
+      <div class="col">IRPEF</div>
+      <div class="col deduction">
+        {{ incomeTaxation | number : "1.2-2" }} ({{
+          incomeTaxationRate | percent
         }})
       </div>
     </div>
     <div class="row">
+      <div class="col">Reddito Annuo Netto</div>
+      <div class="col">
+        {{ incomeAfterTaxation | number : "1.2-2" }}
+      </div>
       <div class="col"></div>
-      <div class="col">Net Annual Income</div>
-      <div class="col">{{ getIncomeAfterTaxation() | number : "1.2-2" }}</div>
       <div class="col"></div>
     </div>
   </div>

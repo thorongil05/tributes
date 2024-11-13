@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
@@ -6,96 +6,91 @@ import { FormControl, FormGroup } from '@angular/forms';
   templateUrl: './salary.component.html',
   styleUrls: ['./salary.component.scss'],
 })
-export class SalaryComponent {
-  private incomeBeforeTaxation: number | undefined;
-  private grossSalary: number | undefined;
-  private socialSecurityContributions: number | undefined;
-  private incomeAfterTaxation: number | undefined;
-  private incomeTaxation: number | undefined;
-  private incomeTaxationRate: number | undefined;
-  private socialSecurityContributionsRate: number | undefined;
+export class SalaryComponent implements OnInit {
+  private _grossSalary: number = 30284;
+  private _incomeTaxationRate: number = 0.28;
+  private _socialSecurityRateList: number[] = [0.33, 0.38, 0.377, 0.4082];
+  private _socialSecurityContributionsRate: number =
+    this._socialSecurityRateList[0];
 
   salaryFormGroup = new FormGroup({
-    grossSalaryFormControl: new FormControl(''),
-    socialSecurityContributionsFormControl: new FormControl(''),
-    incomeTaxationRateFormControl: new FormControl(''),
+    grossSalaryFormControl: new FormControl<number>(this._grossSalary),
+    socialSecurityContributionsRateFormControl: new FormControl(''),
+    incomeTaxationRateFormControl: new FormControl<number>(
+      this._incomeTaxationRate * 100
+    ),
   });
 
-  getIncomeBeforeTaxation() {
-    return this.incomeBeforeTaxation;
+  ngOnInit(): void {}
+
+  public get grossSalary(): number {
+    return this._grossSalary;
   }
 
-  getGrossSalary() {
-    return this.grossSalary;
+  public get socialSecurityContributionsRate(): number {
+    return this._socialSecurityContributionsRate;
   }
 
-  getSocialSecurityContributions() {
-    return this.socialSecurityContributions;
+  public get socialSecurityContributionsPercentage(): number {
+    return this._socialSecurityContributionsRate * 100;
   }
 
-  getIncomeAfterTaxation() {
-    return this.incomeAfterTaxation;
+  public get socialSecurityRateList(): number[] {
+    return this._socialSecurityRateList;
   }
 
-  getIncomeTaxation() {
-    return this.incomeTaxation;
+  public get incomeTaxationRate(): number {
+    return this._incomeTaxationRate;
   }
 
-  getSocialSecurityContributionsRate() {
-    if (this.socialSecurityContributionsRate) {
-      return this.socialSecurityContributionsRate / 100;
-    }
-    return 0;
+  public get incomeAfterTaxation(): number {
+    return this.incomeBeforeTaxation - this.incomeTaxation;
   }
 
-  getIncomeTaxationRate() {
-    if (this.incomeTaxationRate) {
-      return this.incomeTaxationRate / 100;
-    }
-    return 0;
+  public get incomeTaxation(): number {
+    return this.incomeBeforeTaxation * this.incomeTaxationRate;
+  }
+
+  public get incomeBeforeTaxation(): number {
+    return this.grossSalary - this.socialSecurityContributions;
+  }
+
+  public get socialSecurityContributions(): number {
+    return this._grossSalary * this._socialSecurityContributionsRate;
   }
 
   onGrossSalaryChange() {
-    let grossSalary = this.salaryFormGroup.get('grossSalaryFormControl')?.value;
-    if (grossSalary) {
-      this.grossSalary = Number.parseFloat(grossSalary);
-      this.onChange();
+    let grossSalaryFromController = this.salaryFormGroup.get(
+      'grossSalaryFormControl'
+    )?.value;
+    if (grossSalaryFromController) {
+      this._grossSalary = grossSalaryFromController;
     }
   }
 
-  onChange() {
-    if (this.grossSalary) {
-      this.socialSecurityContributions =
-        this.grossSalary * this.getSocialSecurityContributionsRate();
-      this.incomeBeforeTaxation =
-        this.grossSalary - this.socialSecurityContributions;
-      this.incomeTaxation =
-        this.incomeBeforeTaxation * this.getIncomeTaxationRate();
-      this.incomeAfterTaxation =
-        this.incomeBeforeTaxation - this.incomeTaxation;
-    }
-  }
-
-  onSocialSecurityContributionsSliderChange() {
+  onSocialSecurityContributionsRateChange() {
     let socialSecurityContributionsRate = this.salaryFormGroup.get(
-      'socialSecurityContributionsFormControl'
+      'socialSecurityContributionsRateFormControl'
     )?.value;
     if (socialSecurityContributionsRate) {
-      this.socialSecurityContributionsRate = Number.parseFloat(
+      this._socialSecurityContributionsRate = Number.parseFloat(
         socialSecurityContributionsRate
       );
-      this.onChange();
     }
   }
 
   onIncomeTaxationSliderChange() {
-    let incomeTaxationRate = this.salaryFormGroup.get(
+    let incomeTaxationPercentage = this.salaryFormGroup.get(
       'incomeTaxationRateFormControl'
     )?.value;
-    if (incomeTaxationRate) {
-      this.incomeTaxationRate = Number.parseFloat(incomeTaxationRate);
-      this.onChange();
+    console.log(incomeTaxationPercentage);
+    if (incomeTaxationPercentage) {
+      this._incomeTaxationRate = incomeTaxationPercentage / 100;
     }
+  }
+
+  formatLabel(value: number) {
+    return `${value}%`;
   }
 
   onSubmit() {}
