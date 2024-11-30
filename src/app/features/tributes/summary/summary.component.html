@@ -1,0 +1,39 @@
+<div class="row">
+  <div class="col">
+    <div class="row">
+      <div class="col text-start">Reddito Annuo Lordo</div>
+      <div class="col">{{ grossSalary | number : "1.2-2" }}</div>
+    </div>
+    <div class="row">
+      <div class="col text-end">Contributi Previdenziali</div>
+      <div class="col deduction">
+        {{ socialSecurityEmployeeContributionsAmount | number : "1.2-2" }} ({{
+          this.socialSecurityEmployeeContributionsRate | percent : "1.2-2"
+        }})
+      </div>
+    </div>
+    <div class="row">
+      <div class="col text-start">Reddito imponibile</div>
+      <div class="col">
+        {{ incomeBeforeTaxationAmount | number : "1.2-2" }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col text-end">IRPEF</div>
+      <div class="col deduction">
+        {{ incomeTaxationAmount | number : "1.2-2" }} ({{
+          incomeTaxationRate | percent
+        }})
+      </div>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="row">
+    <div class="col">Reddito Annuo Netto</div>
+    <div class="col">{{ incomeAfterTaxationAmount | number : "1.2-2" }}</div>
+  </div>
+  <div class="row">
+    <div class="col">Reddito periodico netto</div>
+    <div class="col">{{ netPeriodicSalaryAmount | number : "1.2-2" }}</div>
+  </div>
+</div>

@@ -1,40 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { SocialSecurityContributionService } from '../services/social-security-contribution.service';
-import {
-  SocialSecurityContribution,
-  SocialSecurityContributionModel,
-} from '../model/tributes-model';
 
 @Component({
   selector: 'app-salary',
   templateUrl: './salary.component.html',
   styleUrls: ['./salary.component.scss'],
 })
-export class SalaryComponent implements OnInit {
+export class SalaryComponent {
   private _grossSalary: number = 30284;
   private _incomeTaxationRate: number = 0.28;
-  private _socialSecurityRateList: SocialSecurityContribution[] = [
-    {
-      employeeContributionOnGrossSalaryRate: 21,
-      employerContributionOnGrossSalaryRate: 9,
-      model: SocialSecurityContributionModel.IVS,
-    },
-  ];
-  private _socialSecurityContributionsSelected: SocialSecurityContribution =
-    this._socialSecurityRateList[0];
   private _installmentNumberPerYear: number = 13;
-
-  constructor(
-    private readonly socialSecurityContributionService: SocialSecurityContributionService
-  ) {}
+  private _socialSecurityEmployeeContribution: number = 0.0919;
 
   salaryFormGroup = new FormGroup({
     grossSalaryFormControl: new FormControl<number>(this._grossSalary),
-    socialSecurityContributionsRateFormControl:
-      new FormControl<SocialSecurityContribution>(
-        this.socialSecurityContributionsSelected
-      ),
+    socialSecurityContributionsRateFormControl: new FormControl<number>(
+      this._socialSecurityEmployeeContribution * 100
+    ),
     incomeTaxationRateFormControl: new FormControl<number>(
       this._incomeTaxationRate * 100
     ),
@@ -42,21 +24,6 @@ export class SalaryComponent implements OnInit {
       this._installmentNumberPerYear
     ),
   });
-
-  ngOnInit(): void {
-    this._socialSecurityRateList =
-      this.socialSecurityContributionService.socialSecurityContributionList;
-  }
-
-  public get socialSecurityContributionsSelected(): SocialSecurityContribution {
-    return this._socialSecurityContributionsSelected;
-  }
-
-  public set socialSecurityContributionsSelected(
-    value: SocialSecurityContribution
-  ) {
-    this._socialSecurityContributionsSelected = value;
-  }
 
   public get installmentNumberPerYear(): number {
     return this._installmentNumberPerYear;
@@ -68,10 +35,6 @@ export class SalaryComponent implements OnInit {
 
   public get grossSalary(): number {
     return this._grossSalary;
-  }
-
-  public get socialSecurityRateList(): SocialSecurityContribution[] {
-    return this._socialSecurityRateList;
   }
 
   public get incomeTaxationRate(): number {
@@ -87,18 +50,18 @@ export class SalaryComponent implements OnInit {
   }
 
   public get socialSecurityContributions(): number {
-    return (
-      this._socialSecurityContributionsSelected
-        .employeeContributionOnGrossSalaryRate * this.grossSalary
-    );
+    return this._socialSecurityEmployeeContribution * this.grossSalary;
   }
 
   public get incomeBeforeTaxation(): number {
-    return (
-      this.grossSalary -
-      this.socialSecurityContributionsSelected
-        .employeeContributionOnGrossSalaryRate
-    );
+    return this.grossSalary - this._socialSecurityEmployeeContribution;
+  }
+
+  public get socialSecurityEmployeeContribution(): number {
+    return this._socialSecurityEmployeeContribution;
+  }
+  public set socialSecurityEmployeeContribution(value: number) {
+    this._socialSecurityEmployeeContribution = value;
   }
 
   onGrossSalaryChange() {
@@ -107,6 +70,16 @@ export class SalaryComponent implements OnInit {
     )?.value;
     if (grossSalaryFromController) {
       this._grossSalary = grossSalaryFromController;
+    }
+  }
+
+  onSocialSecurityContributionRateChange() {
+    let employeeSocialSecurityContributionRate = this.salaryFormGroup.get(
+      'socialSecurityContributionsRateFormControl'
+    )?.value;
+    if (employeeSocialSecurityContributionRate) {
+      this._socialSecurityEmployeeContribution =
+        employeeSocialSecurityContributionRate / 100;
     }
   }
 

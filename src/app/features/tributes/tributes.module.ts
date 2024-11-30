@@ -9,10 +9,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatRadioModule } from '@angular/material/radio';
-import { SocialSecurityContributionModelPipe } from "./pipes/social-security-contribution-model-pipe";
+import { MatDividerModule } from '@angular/material/divider';
+import { SocialSecurityContributionModelPipe } from './pipes/social-security-contribution-model-pipe';
+import { SummaryComponent } from './summary/summary.component';
 
 @NgModule({
-  declarations: [SalaryComponent],
+  declarations: [SalaryComponent, SummaryComponent],
   imports: [
     CommonModule,
     TributesRoutingModule,
@@ -23,7 +25,8 @@ import { SocialSecurityContributionModelPipe } from "./pipes/social-security-con
     MatIconModule,
     MatSliderModule,
     MatRadioModule,
-    SocialSecurityContributionModelPipe
-],
+    MatDividerModule,
+    SocialSecurityContributionModelPipe,
+  ],
 })
 export class TributesModule {}

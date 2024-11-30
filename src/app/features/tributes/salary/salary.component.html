@@ -1,9 +1,10 @@
+<h1>Compute your net salary</h1>
 <div class="row">
   <div class="col">
     <form [formGroup]="salaryFormGroup" (submit)="onSubmit()">
-      <div class="row">
+      <div class="row my-5">
         <mat-form-field appearance="outline">
-          <mat-label>Salary</mat-label>
+          <mat-label>Gross Annual Salary</mat-label>
           <input
             matInput
             class="salary-input"
@@ -16,25 +17,30 @@
           />
           <span matTextPrefix>&#8364;</span>
           <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-          <mat-hint>Hint</mat-hint>
+          <mat-hint>Insert here Gross Annual Salary</mat-hint>
         </mat-form-field>
       </div>
-      <div class="row">
+      <div class="row my-5">
         <mat-label>Social Security Contributions Rate</mat-label>
-        <mat-radio-group
-          formControlName="socialSecurityContributionsRateFormControl"
-          [(ngModel)]="this.socialSecurityContributionsSelected"
+        <mat-slider
+          class="mx-auto"
+          [discrete]="true"
+          min="1"
+          max="100"
+          step="1"
+          [displayWith]="formatLabel"
         >
-          @for (rate of socialSecurityRateList; track $index) {
-          <mat-radio-button value="{{ rate }}" [checked]="$index == 0"
-            >{{ rate.model | socialSecurityContributionModel }} ({{
-              rate.employeeContributionOnGrossSalaryRate | percent
-            }})</mat-radio-button
-          >
-          }
-        </mat-radio-group>
+          <input
+            formControlName="socialSecurityContributionsRateFormControl"
+            (change)="onSocialSecurityContributionRateChange()"
+            matSliderThumb
+          />
+        </mat-slider>
+        <mat-hint
+          >Insert the employee social security contributions rate</mat-hint
+        >
       </div>
-      <div class="row">
+      <div class="row my-5">
         <mat-label class="mx-auto">Income Taxation Rate</mat-label>
         <mat-slider
           class="mx-auto"
@@ -42,7 +48,6 @@
           min="1"
           max="100"
           step="1"
-          showTickMarks
           [displayWith]="formatLabel"
         >
           <input
@@ -51,8 +56,9 @@
             matSliderThumb
           />
         </mat-slider>
+        <mat-hint>Insert the rate for income tax</mat-hint>
       </div>
-      <div class="row">
+      <div class="row my-5">
         <mat-form-field appearance="outline">
           <mat-label>Number of payments (per year)</mat-label>
           <input
@@ -65,53 +71,23 @@
             step="1"
             (change)="this.onInstallmentNumberPerYearChange()"
           />
-          <mat-hint>Hint</mat-hint>
+          <mat-hint>Insert the number of payments per year</mat-hint>
         </mat-form-field>
       </div>
     </form>
   </div>
-</div>
-<div class="row">
   <div class="col">
-    <h1>Temp</h1>
-    <div class="row">
-      <div class="col">Reddito Annuo Lordo</div>
-      <div class="col">{{ grossSalary | number : "1.2-2" }}</div>
-      <div class="col"></div>
-      <div class="col"></div>
-    </div>
-    <div class="row">
-      <div class="col"></div>
-      <div class="col"></div>
-      <div class="col">Contributi Previdenziali</div>
-      <div class="col deduction">
-        {{ socialSecurityContributions | number : "1.2-2" }} ({{
-          this.socialSecurityContributionsSelected
-            .employeeContributionOnGrossSalaryRate | percent : "1.2-2"
-        }})
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">Reddito imponibile</div>
-      <div class="col">
-        {{ incomeBeforeTaxation | number : "1.2-2" }}
-      </div>
-      <div class="col"></div>
-      <div class="col"></div>
-    </div>
-    <div class="row">
-      <div class="col"></div>
-      <div class="col"></div>
-      <div class="col">IRPEF</div>
-      <div class="col deduction">
-        {{ incomeTaxation | number : "1.2-2" }} ({{
-          incomeTaxationRate | percent
-        }})
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col">{{ incomeAfterTaxation | number : "1.2-2" }}</div>
-    <div class="col">{{ netPeriodicSalary | number : "1.2-2" }}</div>
+    <app-summary
+      [grossSalary]="grossSalary"
+      [socialSecurityEmployeeContributionsAmount]="socialSecurityContributions"
+      [socialSecurityEmployeeContributionsRate]="
+        socialSecurityEmployeeContribution
+      "
+      [incomeBeforeTaxationAmount]="incomeBeforeTaxation"
+      [incomeTaxationAmount]="incomeTaxation"
+      [incomeTaxationRate]="incomeTaxationRate"
+      [incomeAfterTaxationAmount]="incomeAfterTaxation"
+      [netPeriodicSalaryAmount]="netPeriodicSalary"
+    ></app-summary>
   </div>
 </div>
