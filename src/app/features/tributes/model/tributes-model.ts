@@ -1,11 +1,12 @@
-enum SocialSecurityContributionModel {
+export enum SocialSecurityContributionModel {
   IVS,
   IPOST,
   FONDO_VOLO,
   FONDO_PENSIONI_LAVORATORI_SPETTACOLO,
+  UNDEF,
 }
 
-interface SocialSecurityContribution {
+export interface SocialSecurityContribution {
   model: SocialSecurityContributionModel;
   employeeContributionOnGrossSalaryRate: number;
   employerContributionOnGrossSalaryRate: number;

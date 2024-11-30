@@ -23,11 +23,13 @@
         <mat-label>Social Security Contributions Rate</mat-label>
         <mat-radio-group
           formControlName="socialSecurityContributionsRateFormControl"
-          (change)="this.onSocialSecurityContributionsRateChange()"
+          [(ngModel)]="this.socialSecurityContributionsSelected"
         >
           @for (rate of socialSecurityRateList; track $index) {
           <mat-radio-button value="{{ rate }}" [checked]="$index == 0"
-            >IVS ({{ rate | percent }})</mat-radio-button
+            >{{ rate.model | socialSecurityContributionModel }} ({{
+              rate.employeeContributionOnGrossSalaryRate | percent
+            }})</mat-radio-button
           >
           }
         </mat-radio-group>
@@ -50,6 +52,22 @@
           />
         </mat-slider>
       </div>
+      <div class="row">
+        <mat-form-field appearance="outline">
+          <mat-label>Number of payments (per year)</mat-label>
+          <input
+            matInput
+            class="salary-input"
+            type="number"
+            placeholder="0"
+            min="0"
+            formControlName="installmentNumberPerYearFormControl"
+            step="1"
+            (change)="this.onInstallmentNumberPerYearChange()"
+          />
+          <mat-hint>Hint</mat-hint>
+        </mat-form-field>
+      </div>
     </form>
   </div>
 </div>
@@ -68,7 +86,8 @@
       <div class="col">Contributi Previdenziali</div>
       <div class="col deduction">
         {{ socialSecurityContributions | number : "1.2-2" }} ({{
-          this.socialSecurityContributionsRate | percent : "1.2-2"
+          this.socialSecurityContributionsSelected
+            .employeeContributionOnGrossSalaryRate | percent : "1.2-2"
         }})
       </div>
     </div>
@@ -90,13 +109,9 @@
         }})
       </div>
     </div>
-    <div class="row">
-      <div class="col">Reddito Annuo Netto</div>
-      <div class="col">
-        {{ incomeAfterTaxation | number : "1.2-2" }}
-      </div>
-      <div class="col"></div>
-      <div class="col"></div>
-    </div>
+  </div>
+  <div class="row">
+    <div class="col">{{ incomeAfterTaxation | number : "1.2-2" }}</div>
+    <div class="col">{{ netPeriodicSalary | number : "1.2-2" }}</div>
   </div>
 </div>

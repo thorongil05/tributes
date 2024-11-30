@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatRadioModule } from '@angular/material/radio';
+import { SocialSecurityContributionModelPipe } from "./pipes/social-security-contribution-model-pipe";
 
 @NgModule({
   declarations: [SalaryComponent],
@@ -22,6 +23,7 @@ import { MatRadioModule } from '@angular/material/radio';
     MatIconModule,
     MatSliderModule,
     MatRadioModule,
-  ],
+    SocialSecurityContributionModelPipe
+],
 })
 export class TributesModule {}

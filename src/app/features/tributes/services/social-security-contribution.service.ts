@@ -1,4 +1,8 @@
 import { Injectable } from '@angular/core';
+import {
+  SocialSecurityContribution,
+  SocialSecurityContributionModel,
+} from '../model/tributes-model';
 
 @Injectable({
   providedIn: 'root',
