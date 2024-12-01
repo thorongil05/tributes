@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import {
+  IncomeTaxStrategy,
+  IncomeTaxStrategyType,
+} from '../model/tributes-model';
 
 @Component({
   selector: 'app-salary',
@@ -11,9 +15,21 @@ export class SalaryComponent {
   private _incomeTaxationRate: number = 0.28;
   private _installmentNumberPerYear: number = 13;
   private _socialSecurityEmployeeContribution: number = 0.0919;
+  private _incomeTaxStrategyList: IncomeTaxStrategy[] = [
+    {
+      type: IncomeTaxStrategyType.TAX_BRACKETS_ITALY_2024,
+      name: 'IRPEF - 2024',
+    },
+    { type: IncomeTaxStrategyType.CUSTOM, name: 'CUSTOM' },
+  ];
+  private _selectedIncomeTaxStrategy: IncomeTaxStrategy =
+    this._incomeTaxStrategyList[0];
 
   salaryFormGroup = new FormGroup({
     grossSalaryFormControl: new FormControl<number>(this._grossSalary),
+    incomeTaxStrategyFormControl: new FormControl<IncomeTaxStrategy>(
+      this.incomeTaxStrategyList[0]
+    ),
     socialSecurityContributionsRateFormControl: new FormControl<number>(
       this._socialSecurityEmployeeContribution * 100
     ),
@@ -62,6 +78,31 @@ export class SalaryComponent {
   }
   public set socialSecurityEmployeeContribution(value: number) {
     this._socialSecurityEmployeeContribution = value;
+  }
+
+  public get incomeTaxStrategyList(): IncomeTaxStrategy[] {
+    return this._incomeTaxStrategyList;
+  }
+  public set incomeTaxStrategyList(value: IncomeTaxStrategy[]) {
+    this._incomeTaxStrategyList = value;
+  }
+
+  public get selectedIncomeTaxStrategy(): IncomeTaxStrategy {
+    return this._selectedIncomeTaxStrategy;
+  }
+  public set selectedIncomeTaxStrategy(value: IncomeTaxStrategy) {
+    this._selectedIncomeTaxStrategy = value;
+  }
+
+  isItaly2024Selected() {
+    return (
+      this.selectedIncomeTaxStrategy.type ==
+      IncomeTaxStrategyType.TAX_BRACKETS_ITALY_2024
+    );
+  }
+
+  isCustomStrategySelected() {
+    return this.selectedIncomeTaxStrategy.type == IncomeTaxStrategyType.CUSTOM;
   }
 
   onGrossSalaryChange() {

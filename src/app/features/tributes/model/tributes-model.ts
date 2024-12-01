@@ -11,3 +11,14 @@ export interface SocialSecurityContribution {
   employeeContributionOnGrossSalaryRate: number;
   employerContributionOnGrossSalaryRate: number;
 }
+
+export enum IncomeTaxStrategyType {
+  TAX_BRACKETS_ITALY_2024,
+  CUSTOM,
+  UNDEF,
+}
+
+export interface IncomeTaxStrategy {
+  type: IncomeTaxStrategyType;
+  name: string;
+}

@@ -12,6 +12,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatDividerModule } from '@angular/material/divider';
 import { SocialSecurityContributionModelPipe } from './pipes/social-security-contribution-model-pipe';
 import { SummaryComponent } from './summary/summary.component';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [SalaryComponent, SummaryComponent],
@@ -26,6 +27,7 @@ import { SummaryComponent } from './summary/summary.component';
     MatSliderModule,
     MatRadioModule,
     MatDividerModule,
+    MatSelectModule,
     SocialSecurityContributionModelPipe,
   ],
 })
