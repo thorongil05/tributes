@@ -41,43 +41,58 @@
         >
       </div>
       <div class="row my-5">
-        <mat-form-field>
-          <mat-label>Strategy</mat-label>
-          <mat-select
-            formControlName="incomeTaxStrategyFormControl"
-            [(ngModel)]="this.selectedIncomeTaxStrategy"
-          >
-            @for (item of incomeTaxStrategyList; track $index) {
-              <mat-option [value]="item">{{ item.name }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-      </div>
-      @if (isItaly2024Selected()) {
-        <app-brackets-detail
-          [taxableIncome]="incomeBeforeTaxation"
-          (incomeTaxAmountChangedEvent)="this.onIncomeTaxationChange($event)"
-        ></app-brackets-detail>
-      }
-      @if (isCustomStrategySelected()) {
-        <div class="row my-5">
-          <mat-form-field appearance="outline">
-            <mat-label class="mx-auto">Income Taxation Rate</mat-label>
-            <input
-              matInput
-              class="salary-input"
-              type="number"
-              placeholder="0"
-              min="0"
-              formControlName="incomeTaxationRateFormControl"
-              step="0.1"
-              (change)="onIncomeTaxationSliderChange()"
-            />
-            <span matTextSuffix>&#37;</span>
-            <mat-hint>Insert the rate for income tax</mat-hint>
+        <div class="row">
+          <mat-form-field>
+            <mat-label>Strategy</mat-label>
+            <mat-select
+              formControlName="incomeTaxStrategyFormControl"
+              [(ngModel)]="this.selectedIncomeTaxStrategy"
+            >
+              @for (item of incomeTaxStrategyList; track $index) {
+                <mat-option [value]="item">{{ item.name }}</mat-option>
+              }
+            </mat-select>
           </mat-form-field>
         </div>
-      }
+        <div class="row">
+          <mat-accordion>
+            <mat-expansion-panel hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>Strategy Details</mat-panel-title>
+                <mat-panel-description>
+                  Look into details how the income tax is computed
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              @if (isItaly2024Selected()) {
+                <h4>{{ selectedIncomeTaxStrategy.name }}</h4>
+                <app-brackets-detail
+                  [taxableIncome]="incomeBeforeTaxation"
+                  (incomeTaxAmountChangedEvent)="
+                    this.onIncomeTaxationChange($event)
+                  "
+                ></app-brackets-detail>
+              }
+              @if (isCustomStrategySelected()) {
+                <mat-form-field appearance="outline">
+                  <mat-label class="mx-auto">Income Taxation Rate</mat-label>
+                  <input
+                    matInput
+                    class="salary-input"
+                    type="number"
+                    placeholder="0"
+                    min="0"
+                    formControlName="incomeTaxationRateFormControl"
+                    step="0.1"
+                    (change)="onIncomeTaxationSliderChange()"
+                  />
+                  <span matTextSuffix>&#37;</span>
+                  <mat-hint>Insert the rate for income tax</mat-hint>
+                </mat-form-field>
+              }
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+      </div>
       <div class="row my-5">
         <mat-form-field appearance="outline">
           <mat-label>Number of payments (per year)</mat-label>

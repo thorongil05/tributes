@@ -42,14 +42,14 @@ export class BracketsDetailComponent implements OnChanges {
     new EventEmitter();
 
   constructor(
-    private readonly _bracketsCalculatorService: BracketsCalculatorService
+    private readonly _bracketsCalculatorService: BracketsCalculatorService,
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     this.bracketsAppliedToTaxableIncome =
       this._bracketsCalculatorService.computeBracketsAppliedToTaxableIncome(
         this.brackets,
-        this.taxableIncome
+        this.taxableIncome,
       );
     this.incomeTaxAmountChangedEvent.emit(this.finalIncomeTax);
   }
@@ -58,7 +58,7 @@ export class BracketsDetailComponent implements OnChanges {
     return this._bracketsAppliedToTaxableIncome;
   }
   public set bracketsAppliedToTaxableIncome(
-    value: BracketAppliedToTaxableIncome[]
+    value: BracketAppliedToTaxableIncome[],
   ) {
     this._bracketsAppliedToTaxableIncome = value;
   }
@@ -74,5 +74,9 @@ export class BracketsDetailComponent implements OnChanges {
     return this.bracketsAppliedToTaxableIncome
       .map((value) => (value.taxAmount ? value.taxAmount : 0))
       .reduce((sum, current) => sum + current, 0);
+  }
+
+  public get taxIncomeOnTaxableIncome(): number {
+    return this.finalIncomeTax / this.taxableIncome;
   }
 }

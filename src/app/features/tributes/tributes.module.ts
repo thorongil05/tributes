@@ -14,6 +14,7 @@ import { SocialSecurityContributionModelPipe } from './pipes/social-security-con
 import { SummaryComponent } from './summary/summary.component';
 import { MatSelectModule } from '@angular/material/select';
 import { BracketsDetailComponent } from './brackets-detail/brackets-detail.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [SalaryComponent, SummaryComponent, BracketsDetailComponent],
@@ -29,6 +30,7 @@ import { BracketsDetailComponent } from './brackets-detail/brackets-detail.compo
     MatRadioModule,
     MatDividerModule,
     MatSelectModule,
+    MatExpansionModule,
     SocialSecurityContributionModelPipe,
   ],
 })

@@ -1,26 +1,30 @@
 @for (item of bracketsAppliedToTaxableIncome; track $index) {
   <div class="row">
-    <div class="col">{{ item.bracket.rate / 100 | percent: "1.2-2" }}</div>
-    @if (item.bracket.upperBoundary) {
-      <div class="col">
-        from {{ item.bracket.lowerBoundary | number: "1.2-2" }} to
-        {{ item.bracket.upperBoundary | number: "1.2-2" }}
-      </div>
-    } @else {
-      <div class="col">
-        from {{ item.bracket.lowerBoundary | number: "1.2-2" }} on
-      </div>
-    }
-    @if (item.taxAmount) {
-      <div class="col">{{ item.taxAmount | number: "1.2-2" }}</div>
-    } @else {
-      <div class="col">-</div>
-    }
+    <div class="col-3">Bracket n.{{ $index + 1 }}</div>
+    <div class="col-2">{{ item.bracket.rate / 100 | percent: "1.2-2" }}</div>
+    <div class="col">
+      @if (item.bracket.upperBoundary) {
+        from {{ item.bracket.lowerBoundary | currency: "EUR" }} to
+        {{ item.bracket.upperBoundary | currency: "EUR" }}
+      } @else {
+        from {{ item.bracket.lowerBoundary | currency: "EUR" }} on
+      }
+    </div>
+    <div class="col-2">
+      @if (item.taxAmount) {
+        {{ item.taxAmount | currency: "EUR" }}
+      } @else {
+        -
+      }
+    </div>
   </div>
 }
 <mat-divider></mat-divider>
 <div class="row">
-  <div class="col"></div>
-  <div class="col"></div>
-  <div class="col">{{ finalIncomeTax | number: "1.2-2" }}</div>
+  <div class="col-10">Total income tax amount</div>
+  <div class="col-2">{{ finalIncomeTax | currency: "EUR" }}</div>
+</div>
+<div class="row">
+  <div class="col-10">Percentage on taxable income</div>
+  <div class="col-2">{{ taxIncomeOnTaxableIncome | percent: "1.2-2" }}</div>
 </div>
