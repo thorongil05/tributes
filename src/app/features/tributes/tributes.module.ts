@@ -13,9 +13,10 @@ import { MatDividerModule } from '@angular/material/divider';
 import { SocialSecurityContributionModelPipe } from './pipes/social-security-contribution-model-pipe';
 import { SummaryComponent } from './summary/summary.component';
 import { MatSelectModule } from '@angular/material/select';
+import { BracketsDetailComponent } from './brackets-detail/brackets-detail.component';
 
 @NgModule({
-  declarations: [SalaryComponent, SummaryComponent],
+  declarations: [SalaryComponent, SummaryComponent, BracketsDetailComponent],
   imports: [
     CommonModule,
     TributesRoutingModule,

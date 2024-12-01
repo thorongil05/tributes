@@ -22,3 +22,14 @@ export interface IncomeTaxStrategy {
   type: IncomeTaxStrategyType;
   name: string;
 }
+
+export interface Bracket {
+  rate: number;
+  lowerBoundary: number;
+  upperBoundary?: number;
+}
+
+export interface BracketAppliedToTaxableIncome {
+  bracket: Bracket;
+  taxAmount?: number;
+}

@@ -13,6 +13,7 @@ import {
 export class SalaryComponent {
   private _grossSalary: number = 30284;
   private _incomeTaxationRate: number = 0.28;
+  private _incomeTaxAmount: number = 0;
   private _installmentNumberPerYear: number = 13;
   private _socialSecurityEmployeeContribution: number = 0.0919;
   private _incomeTaxStrategyList: IncomeTaxStrategy[] = [
@@ -41,6 +42,13 @@ export class SalaryComponent {
     ),
   });
 
+  public get incomeTaxAmount(): number {
+    return this._incomeTaxAmount;
+  }
+  public set incomeTaxAmount(value: number) {
+    this._incomeTaxAmount = value;
+  }
+
   public get installmentNumberPerYear(): number {
     return this._installmentNumberPerYear;
   }
@@ -58,11 +66,7 @@ export class SalaryComponent {
   }
 
   public get incomeAfterTaxation(): number {
-    return this.incomeBeforeTaxation - this.incomeTaxation;
-  }
-
-  public get incomeTaxation(): number {
-    return this.incomeBeforeTaxation * this.incomeTaxationRate;
+    return this.incomeBeforeTaxation - this.incomeTaxAmount;
   }
 
   public get socialSecurityContributions(): number {
@@ -132,6 +136,10 @@ export class SalaryComponent {
     if (incomeTaxationPercentage) {
       this._incomeTaxationRate = incomeTaxationPercentage / 100;
     }
+  }
+
+  onIncomeTaxationChange(incomeTaxAmountChangedEvent: number) {
+    this.incomeTaxAmount = incomeTaxAmountChangedEvent;
   }
 
   onInstallmentNumberPerYearChange() {

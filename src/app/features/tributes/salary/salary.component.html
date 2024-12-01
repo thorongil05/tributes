@@ -48,31 +48,35 @@
             [(ngModel)]="this.selectedIncomeTaxStrategy"
           >
             @for (item of incomeTaxStrategyList; track $index) {
-            <mat-option [value]="item">{{ item.name }}</mat-option>
+              <mat-option [value]="item">{{ item.name }}</mat-option>
             }
           </mat-select>
         </mat-form-field>
       </div>
       @if (isItaly2024Selected()) {
-      <div class="row">TEST</div>
-      } @if (isCustomStrategySelected()) {
-      <div class="row my-5">
-        <mat-form-field appearance="outline">
-          <mat-label class="mx-auto">Income Taxation Rate</mat-label>
-          <input
-            matInput
-            class="salary-input"
-            type="number"
-            placeholder="0"
-            min="0"
-            formControlName="incomeTaxationRateFormControl"
-            step="0.1"
-            (change)="onIncomeTaxationSliderChange()"
-          />
-          <span matTextSuffix>&#37;</span>
-          <mat-hint>Insert the rate for income tax</mat-hint>
-        </mat-form-field>
-      </div>
+        <app-brackets-detail
+          [taxableIncome]="incomeBeforeTaxation"
+          (incomeTaxAmountChangedEvent)="this.onIncomeTaxationChange($event)"
+        ></app-brackets-detail>
+      }
+      @if (isCustomStrategySelected()) {
+        <div class="row my-5">
+          <mat-form-field appearance="outline">
+            <mat-label class="mx-auto">Income Taxation Rate</mat-label>
+            <input
+              matInput
+              class="salary-input"
+              type="number"
+              placeholder="0"
+              min="0"
+              formControlName="incomeTaxationRateFormControl"
+              step="0.1"
+              (change)="onIncomeTaxationSliderChange()"
+            />
+            <span matTextSuffix>&#37;</span>
+            <mat-hint>Insert the rate for income tax</mat-hint>
+          </mat-form-field>
+        </div>
       }
       <div class="row my-5">
         <mat-form-field appearance="outline">
@@ -100,7 +104,7 @@
         socialSecurityEmployeeContribution
       "
       [incomeBeforeTaxationAmount]="incomeBeforeTaxation"
-      [incomeTaxationAmount]="incomeTaxation"
+      [incomeTaxationAmount]="incomeTaxAmount"
       [incomeTaxationRate]="incomeTaxationRate"
       [incomeAfterTaxationAmount]="incomeAfterTaxation"
       [netPeriodicSalaryAmount]="netPeriodicSalary"
