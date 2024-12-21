@@ -11,6 +11,7 @@ import {
   BracketAppliedToTaxableIncome,
 } from '../model/tributes-model';
 import BracketsCalculatorService from '../services/brackets-calculator.service';
+import { TaxInfo } from '../model/TaxInfo';
 
 @Component({
   selector: 'app-brackets-detail',
@@ -38,7 +39,7 @@ export class BracketsDetailComponent implements OnChanges {
   private _bracketsAppliedToTaxableIncome: BracketAppliedToTaxableIncome[] = [];
 
   @Input() taxableIncome: number = 0;
-  @Output() incomeTaxAmountChangedEvent: EventEmitter<number> =
+  @Output() incomeTaxAmountChangedEvent: EventEmitter<TaxInfo> =
     new EventEmitter();
 
   constructor(
@@ -51,7 +52,9 @@ export class BracketsDetailComponent implements OnChanges {
         this.brackets,
         this.taxableIncome,
       );
-    this.incomeTaxAmountChangedEvent.emit(this.finalIncomeTax);
+    this.incomeTaxAmountChangedEvent.emit(
+      new TaxInfo(this.taxableIncome, this.taxIncomeOnTaxableIncome),
+    );
   }
 
   public get bracketsAppliedToTaxableIncome(): BracketAppliedToTaxableIncome[] {

@@ -1,0 +1,16 @@
+<mat-card appearance="outlined">
+  <mat-card-content>
+    <div class="row">
+      <div class="col">
+        <h1>{{ taxInfo.afterTaxationAmount | currency: "EUR" }}</h1>
+      </div>
+      <div class="col">(- {{ taxInfo.taxationRate | percent: "1.2-2" }})</div>
+    </div>
+    <div class="row">
+      <div class="col">
+        {{ taxInfo.beforeTaxationAmount | currency: "EUR" }} -
+        {{ taxInfo.taxationAmount | currency: "EUR" }}
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

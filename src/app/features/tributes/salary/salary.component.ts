@@ -4,6 +4,7 @@ import {
   IncomeTaxStrategy,
   IncomeTaxStrategyType,
 } from '../model/tributes-model';
+import { TaxInfo } from '../model/TaxInfo';
 
 @Component({
   selector: 'app-salary',
@@ -12,10 +13,9 @@ import {
 })
 export class SalaryComponent {
   private _grossSalary: number = 30284;
-  private _incomeTaxationRate: number = 0.28;
-  private _incomeTaxAmount: number = 0;
   private _installmentNumberPerYear: number = 13;
-  private _socialSecurityEmployeeContribution: number = 0.0919;
+  private _incomeTax: TaxInfo = new TaxInfo(0, 0.28);
+  private _socialSecurityEmployeeContributionRate: number = 0.0919;
   private _incomeTaxStrategyList: IncomeTaxStrategy[] = [
     {
       type: IncomeTaxStrategyType.TAX_BRACKETS_ITALY_2024,
@@ -29,28 +29,40 @@ export class SalaryComponent {
   salaryFormGroup = new FormGroup({
     grossSalaryFormControl: new FormControl<number>(this._grossSalary),
     incomeTaxStrategyFormControl: new FormControl<IncomeTaxStrategy>(
-      this.incomeTaxStrategyList[0]
+      this.incomeTaxStrategyList[0],
     ),
     socialSecurityContributionsRateFormControl: new FormControl<number>(
-      this._socialSecurityEmployeeContribution * 100
+      this._socialSecurityEmployeeContributionRate * 100,
     ),
     incomeTaxationRateFormControl: new FormControl<number>(
-      this._incomeTaxationRate * 100
+      this.incomeTax.taxationRate * 100,
     ),
     installmentNumberPerYearFormControl: new FormControl<number>(
-      this._installmentNumberPerYear
+      this._installmentNumberPerYear,
     ),
   });
 
-  public get incomeTaxAmount(): number {
-    return this._incomeTaxAmount;
+  public get incomeTax(): TaxInfo {
+    return this._incomeTax;
   }
-  public set incomeTaxAmount(value: number) {
-    this._incomeTaxAmount = value;
+  public set incomeTax(value: TaxInfo) {
+    this._incomeTax = value;
   }
 
   public get installmentNumberPerYear(): number {
     return this._installmentNumberPerYear;
+  }
+
+  public get grossPeriodicSalary(): number {
+    return this.grossSalary / this.installmentNumberPerYear;
+  }
+
+  public get withholdingPeriodicRate(): number {
+    return 1 - this.netPeriodicSalary / this.grossPeriodicSalary;
+  }
+
+  public get withholdingPeriodicAmount(): number {
+    return this.grossPeriodicSalary - this.netPeriodicSalary;
   }
 
   public get netPeriodicSalary(): number {
@@ -61,27 +73,23 @@ export class SalaryComponent {
     return this._grossSalary;
   }
 
-  public get incomeTaxationRate(): number {
-    return this._incomeTaxationRate;
-  }
-
   public get incomeAfterTaxation(): number {
-    return this.incomeBeforeTaxation - this.incomeTaxAmount;
+    return this.incomeBeforeTaxation - this.incomeTax.taxableAmount;
   }
 
   public get socialSecurityContributions(): number {
-    return this._socialSecurityEmployeeContribution * this.grossSalary;
+    return this._socialSecurityEmployeeContributionRate * this.grossSalary;
   }
 
   public get incomeBeforeTaxation(): number {
-    return this.grossSalary - this._socialSecurityEmployeeContribution;
+    return this.grossSalary - this.socialSecurityContributions;
   }
 
-  public get socialSecurityEmployeeContribution(): number {
-    return this._socialSecurityEmployeeContribution;
+  public get socialSecurityEmployeeContributionRate(): number {
+    return this._socialSecurityEmployeeContributionRate;
   }
-  public set socialSecurityEmployeeContribution(value: number) {
-    this._socialSecurityEmployeeContribution = value;
+  public set socialSecurityEmployeeContributionRate(value: number) {
+    this._socialSecurityEmployeeContributionRate = value;
   }
 
   public get incomeTaxStrategyList(): IncomeTaxStrategy[] {
@@ -111,7 +119,7 @@ export class SalaryComponent {
 
   onGrossSalaryChange() {
     let grossSalaryFromController = this.salaryFormGroup.get(
-      'grossSalaryFormControl'
+      'grossSalaryFormControl',
     )?.value;
     if (grossSalaryFromController) {
       this._grossSalary = grossSalaryFromController;
@@ -119,32 +127,32 @@ export class SalaryComponent {
   }
 
   onSocialSecurityContributionRateChange() {
-    let employeeSocialSecurityContributionRate = this.salaryFormGroup.get(
-      'socialSecurityContributionsRateFormControl'
+    let employeeSocialSecurityContributionPercentage = this.salaryFormGroup.get(
+      'socialSecurityContributionsRateFormControl',
     )?.value;
-    if (employeeSocialSecurityContributionRate) {
-      this._socialSecurityEmployeeContribution =
-        employeeSocialSecurityContributionRate / 100;
+    if (employeeSocialSecurityContributionPercentage) {
+      this._socialSecurityEmployeeContributionRate =
+        employeeSocialSecurityContributionPercentage / 100;
     }
   }
 
   onIncomeTaxationSliderChange() {
     let incomeTaxationPercentage = this.salaryFormGroup.get(
-      'incomeTaxationRateFormControl'
+      'incomeTaxationRateFormControl',
     )?.value;
-    console.log(incomeTaxationPercentage);
     if (incomeTaxationPercentage) {
-      this._incomeTaxationRate = incomeTaxationPercentage / 100;
+      let taxationRatio = incomeTaxationPercentage / 100;
+      this.incomeTax.taxationRate = taxationRatio;
     }
   }
 
-  onIncomeTaxationChange(incomeTaxAmountChangedEvent: number) {
-    this.incomeTaxAmount = incomeTaxAmountChangedEvent;
+  onIncomeTaxationChange(taxInfo: TaxInfo) {
+    this.incomeTax = taxInfo;
   }
 
   onInstallmentNumberPerYearChange() {
     let installmentNumberPerYearFormValue = this.salaryFormGroup.get(
-      'installmentNumberPerYearFormControl'
+      'installmentNumberPerYearFormControl',
     )?.value;
     if (installmentNumberPerYearFormValue) {
       this._installmentNumberPerYear = installmentNumberPerYearFormValue;

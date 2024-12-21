@@ -15,9 +15,16 @@ import { SummaryComponent } from './summary/summary.component';
 import { MatSelectModule } from '@angular/material/select';
 import { BracketsDetailComponent } from './brackets-detail/brackets-detail.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatCardModule } from '@angular/material/card';
+import { TaxInfoCardComponent } from './tax-info-card/tax-info-card.component';
 
 @NgModule({
-  declarations: [SalaryComponent, SummaryComponent, BracketsDetailComponent],
+  declarations: [
+    SalaryComponent,
+    SummaryComponent,
+    BracketsDetailComponent,
+    TaxInfoCardComponent,
+  ],
   imports: [
     CommonModule,
     TributesRoutingModule,
@@ -30,6 +37,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatRadioModule,
     MatDividerModule,
     MatSelectModule,
+    MatCardModule,
     MatExpansionModule,
     SocialSecurityContributionModelPipe,
   ],

@@ -20,25 +20,44 @@
           <mat-hint>Insert here Gross Annual Salary</mat-hint>
         </mat-form-field>
       </div>
+      <div class="row mx-1">
+        <mat-card appearance="outlined">
+          <mat-card-content>{{
+            this.grossSalary | currency: "EUR"
+          }}</mat-card-content>
+        </mat-card>
+      </div>
       <div class="row my-5">
-        <mat-label>Social Security Contributions Rate</mat-label>
-        <mat-slider
-          class="mx-auto"
-          [discrete]="true"
-          min="1"
-          max="100"
-          step="1"
-          [displayWith]="formatLabel"
-        >
+        <mat-form-field appearance="outline">
+          <mat-label>Social Security Contributions Rate</mat-label>
           <input
+            matInput
+            class="social-security-contributions-rate-input"
+            type="number"
+            placeholder="0"
+            min="0"
             formControlName="socialSecurityContributionsRateFormControl"
-            (change)="onSocialSecurityContributionRateChange()"
-            matSliderThumb
+            step="0.1"
+            (change)="this.onSocialSecurityContributionRateChange()"
           />
-        </mat-slider>
-        <mat-hint
-          >Insert the employee social security contributions rate</mat-hint
-        >
+          <span matTextPrefix>&percnt;</span>
+          <mat-hint
+            >Insert the employee social security contributions rate</mat-hint
+          >
+        </mat-form-field>
+      </div>
+      <div class="row mx-1">
+        <mat-card appearance="outlined">
+          <mat-card-content>
+            {{ this.incomeBeforeTaxation | currency: "EUR" }}
+            <span>
+              (-
+              {{
+                this.socialSecurityEmployeeContributionRate | percent: "1.2-2"
+              }})
+            </span>
+          </mat-card-content>
+        </mat-card>
       </div>
       <div class="row my-5">
         <div class="row">
@@ -93,6 +112,9 @@
           </mat-accordion>
         </div>
       </div>
+      <div class="row mx-1">
+        <app-tax-info-card [taxInfo]="incomeTax"></app-tax-info-card>
+      </div>
       <div class="row my-5">
         <mat-form-field appearance="outline">
           <mat-label>Number of payments (per year)</mat-label>
@@ -111,18 +133,24 @@
       </div>
     </form>
   </div>
-  <div class="col">
-    <app-summary
-      [grossSalary]="grossSalary"
-      [socialSecurityEmployeeContributionsAmount]="socialSecurityContributions"
-      [socialSecurityEmployeeContributionsRate]="
-        socialSecurityEmployeeContribution
-      "
-      [incomeBeforeTaxationAmount]="incomeBeforeTaxation"
-      [incomeTaxationAmount]="incomeTaxAmount"
-      [incomeTaxationRate]="incomeTaxationRate"
-      [incomeAfterTaxationAmount]="incomeAfterTaxation"
-      [netPeriodicSalaryAmount]="netPeriodicSalary"
-    ></app-summary>
+  <div class="row mx-1 my-1">
+    <mat-card appearance="outlined">
+      <mat-card-content>
+        {{ this.grossPeriodicSalary | currency: "EUR" }}
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="row mx-1 my-1">
+    <mat-card appearance="outlined">
+      <mat-card-content>
+        {{ this.netPeriodicSalary | currency: "EUR" }}
+        <span>
+          (-
+          {{ this.withholdingPeriodicAmount | currency: "EUR" }}
+          ) (-
+          {{ this.withholdingPeriodicRate | percent: "1.2-2" }})
+        </span>
+      </mat-card-content>
+    </mat-card>
   </div>
 </div>
