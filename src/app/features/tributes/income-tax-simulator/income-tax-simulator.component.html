@@ -1,0 +1,29 @@
+<div class="container-fluid mt-3">
+  <div class="row">
+    <form [formGroup]="formGroup">
+      <div class="row">
+        <mat-form-field appearance="outline">
+          <mat-label>Taxable amount</mat-label>
+          <input
+            matInput
+            type="number"
+            placeholder="0"
+            min="0"
+            formControlName="taxableAmountFormController"
+            step="1000"
+          />
+          <mat-hint>Insert taxable amount</mat-hint>
+        </mat-form-field>
+      </div>
+    </form>
+  </div>
+  <div class="row">
+    <app-brackets-detail
+      [taxableIncome]="
+        this.formGroup.value.taxableAmountFormController
+          ? this.formGroup.value.taxableAmountFormController
+          : 0
+      "
+    ></app-brackets-detail>
+  </div>
+</div>

@@ -14,7 +14,7 @@ export default class BracketsCalculatorService {
 
   public computeBracketsAppliedToTaxableIncome(
     brackets: Bracket[],
-    taxableIncome: number
+    taxableIncome: number,
   ): BracketAppliedToTaxableIncome[] {
     let bracketsAppliedToTaxableIncome: BracketAppliedToTaxableIncome[] = [];
 
@@ -27,7 +27,7 @@ export default class BracketsCalculatorService {
         // If taxable income falls in the bracket
         if (
           taxableIncome >= bracket.lowerBoundary &&
-          taxableIncome <= bracket.upperBoundary
+          taxableIncome < bracket.upperBoundary
         ) {
           bracketsAppliedToTaxableIncome.push({
             bracket: bracket,
@@ -49,10 +49,6 @@ export default class BracketsCalculatorService {
             bracket: bracket,
             taxAmount:
               (taxableIncome - bracket.lowerBoundary) * (bracket.rate / 100),
-          });
-        } else {
-          bracketsAppliedToTaxableIncome.push({
-            bracket: bracket,
           });
         }
       }

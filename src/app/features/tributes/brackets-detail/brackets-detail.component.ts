@@ -31,7 +31,7 @@ export class BracketsDetailComponent implements OnChanges {
       rate: 35,
     },
     {
-      lowerBoundary: 50000,
+      lowerBoundary: 50001,
       rate: 43,
     },
   ];

@@ -18,6 +18,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCardModule } from '@angular/material/card';
 import { TaxInfoCardComponent } from './tax-info-card/tax-info-card.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { IncomeTaxSimulatorComponent } from './income-tax-simulator/income-tax-simulator.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     SummaryComponent,
     BracketsDetailComponent,
     TaxInfoCardComponent,
+    IncomeTaxSimulatorComponent,
   ],
   imports: [
     CommonModule,
