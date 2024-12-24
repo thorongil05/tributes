@@ -1,8 +1,21 @@
-<h1>Compute your net salary</h1>
+<div class="row">
+  <div class="col-10">
+    <h1>Compute your net salary</h1>
+  </div>
+  <div class="col">
+    <form [formGroup]="salaryViewDriverGroup">
+      <mat-slide-toggle
+        formControlName="enableIntraStepsFormControl"
+        labelPosition="before"
+        >Expand</mat-slide-toggle
+      >
+    </form>
+  </div>
+</div>
 <div class="row">
   <div class="col">
     <form [formGroup]="salaryFormGroup" (submit)="onSubmit()">
-      <div class="row my-5">
+      <div class="row">
         <mat-form-field appearance="outline">
           <mat-label>Gross Annual Salary</mat-label>
           <input
@@ -20,14 +33,14 @@
           <mat-hint>Insert here Gross Annual Salary</mat-hint>
         </mat-form-field>
       </div>
-      <div class="row mx-1">
+      @if (isIntraStepsEnabled) {
         <mat-card appearance="outlined">
           <mat-card-content>{{
             this.grossSalary | currency: "EUR"
           }}</mat-card-content>
         </mat-card>
-      </div>
-      <div class="row my-5">
+      }
+      <div class="row">
         <mat-form-field appearance="outline">
           <mat-label>Social Security Contributions Rate</mat-label>
           <input
@@ -46,7 +59,7 @@
           >
         </mat-form-field>
       </div>
-      <div class="row mx-1">
+      @if (isIntraStepsEnabled) {
         <mat-card appearance="outlined">
           <mat-card-content>
             {{ this.incomeBeforeTaxation | currency: "EUR" }}
@@ -58,8 +71,8 @@
             </span>
           </mat-card-content>
         </mat-card>
-      </div>
-      <div class="row my-5">
+      }
+      <div class="row">
         <div class="row">
           <mat-form-field>
             <mat-label>Strategy</mat-label>
@@ -112,10 +125,10 @@
           </mat-accordion>
         </div>
       </div>
-      <div class="row mx-1">
+      @if (isIntraStepsEnabled) {
         <app-tax-info-card [taxInfo]="incomeTax"></app-tax-info-card>
-      </div>
-      <div class="row my-5">
+      }
+      <div class="row">
         <mat-form-field appearance="outline">
           <mat-label>Number of payments (per year)</mat-label>
           <input

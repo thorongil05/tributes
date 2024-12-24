@@ -17,6 +17,7 @@ import { BracketsDetailComponent } from './brackets-detail/brackets-detail.compo
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCardModule } from '@angular/material/card';
 import { TaxInfoCardComponent } from './tax-info-card/tax-info-card.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { TaxInfoCardComponent } from './tax-info-card/tax-info-card.component';
     MatSelectModule,
     MatCardModule,
     MatExpansionModule,
+    MatSlideToggleModule,
     SocialSecurityContributionModelPipe,
   ],
 })

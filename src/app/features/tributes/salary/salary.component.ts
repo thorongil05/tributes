@@ -42,6 +42,17 @@ export class SalaryComponent {
     ),
   });
 
+  salaryViewDriverGroup: FormGroup = new FormGroup({
+    enableIntraStepsFormControl: new FormControl<boolean>(false),
+  });
+
+  public get isIntraStepsEnabled() {
+    console.log(
+      this.salaryViewDriverGroup.get('enableIntraStepsFormControl')?.value,
+    );
+    return this.salaryViewDriverGroup.get('enableIntraStepsFormControl')?.value;
+  }
+
   public get incomeTax(): TaxInfo {
     return this._incomeTax;
   }
