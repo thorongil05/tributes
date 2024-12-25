@@ -1,6 +1,8 @@
 @for (item of bracketsAppliedToTaxableIncome; track $index) {
   <div class="row">
-    <div class="col-3">Bracket n.{{ $index + 1 }}</div>
+    <div class="col-3">
+      <span i18n>brackets-detail.name</span> n.{{ $index + 1 }}
+    </div>
     <div class="col-2">{{ item.bracket.rate / 100 | percent: "1.2-2" }}</div>
     <div class="col">
       @if (item.bracket.upperBoundary) {
@@ -21,10 +23,14 @@
 }
 <mat-divider></mat-divider>
 <div class="row">
-  <div class="col-10">Total income tax amount</div>
+  <div class="col-10">
+    <p i18n>brackets-detail.final-income-tax</p>
+  </div>
   <div class="col-2">{{ finalIncomeTax | currency: "EUR" }}</div>
 </div>
 <div class="row">
-  <div class="col-10">Percentage on taxable income</div>
+  <div class="col-10">
+    <p i18n>brackets-detail.percentage-on-taxable-income</p>
+  </div>
   <div class="col-2">{{ taxIncomeOnTaxableIncome | percent: "1.2-2" }}</div>
 </div>

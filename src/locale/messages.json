@@ -1,0 +1,12 @@
+{
+  "locale": "en-US",
+  "translations": {
+    "4634629878080095710": "brackets-detail.name",
+    "8638895457925132911": "brackets-detail.final-income-tax",
+    "8254787684713213524": "brackets-detail.percentage-on-taxable-income",
+    "5949948569821234708": "side-bar.annual-income-simulation",
+    "6557852643167993840": "side-bar.income-tax-simulation",
+    "5428981063874203289": "side-bar.bond-simulation",
+    "8927663329570040857": "side-bar.monthly-salary-simulation"
+  }
+}
