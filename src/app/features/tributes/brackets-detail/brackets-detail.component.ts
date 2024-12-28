@@ -52,9 +52,11 @@ export class BracketsDetailComponent implements OnChanges {
         this.brackets,
         this.taxableIncome,
       );
-    this.incomeTaxAmountChangedEvent.emit(
-      new TaxInfo(this.taxableIncome, this.taxIncomeOnTaxableIncome),
-    );
+    this.incomeTaxAmountChangedEvent.emit(this.taxInfo);
+  }
+
+  public get taxInfo(): TaxInfo {
+    return new TaxInfo(this.taxableIncome, this.taxIncomeOnTaxableIncome);
   }
 
   public get bracketsAppliedToTaxableIncome(): BracketAppliedToTaxableIncome[] {
