@@ -49,11 +49,15 @@ export class PaychecksHomeComponent implements OnInit {
   getMonthName(monthNumber: number): string {
     // Ensure the monthNumber is valid (1-12)
     if (monthNumber < 1 || monthNumber > 12) {
+      console.log('Error');
       throw new Error('Invalid month number. It should be between 1 and 12.');
     }
 
     const date = new Date(2000, monthNumber - 1); // Use any year, e.g., 2000
-    return new Intl.DateTimeFormat('it-IT', { month: 'long' }).format(date);
+    let monthString = new Intl.DateTimeFormat('it-IT', {
+      month: 'long',
+    }).format(date);
+    return monthString;
   }
 
   onSelectedIndexChanged(selectedIndex: number) {
