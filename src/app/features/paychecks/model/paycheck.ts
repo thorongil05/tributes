@@ -3,11 +3,13 @@ export interface Paycheck {
   entries: PaycheckEntry[];
 }
 export interface PaycheckEntry {
-  code: string;
-  description: string;
+  code?: string;
+  type?: string;
+  description?: string;
   unityValue?: number;
   frequency?: number;
   withholdings?: number;
+  taxableAmount?: number;
   amount?: number;
 }
 

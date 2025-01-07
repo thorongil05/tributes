@@ -7,9 +7,6 @@
     @for (period of paycheckPeriodList; track $index) {
       <mat-tab label="{{ getMonthName(period.month) }} 2023">
         <app-paycheck-table [referencePeriod]="period"></app-paycheck-table>
-        <app-paychecks-withholdings
-          [referencePeriod]="period"
-        ></app-paychecks-withholdings>
         <p>{{ netAmountForPeriod | currency: "EUR" }}</p>
       </mat-tab>
     }

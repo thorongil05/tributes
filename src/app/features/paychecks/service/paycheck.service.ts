@@ -16,29 +16,30 @@ export class PaycheckService {
     if (period.month == 3 && period.year == 2023)
       return [
         {
-          code: '1000',
-          description: 'Retribuzione/Stipendio',
+          description: '1000 - Retribuzione/Stipendio',
           unityValue: 88.76,
           frequency: 16,
           amount: 1420.12,
         },
         {
-          code: '6548',
-          description: 'CTR C/DIP ESONERO L.197/22',
+          description: '6548 - CTR C/DIP ESONERO L.197/22',
           unityValue: 14.2,
           frequency: 3,
           amount: 42.6,
         },
         {
-          code: '8146',
-          description: 'CREDITO D.L.3/20 TOT DETR. TEO',
+          description: '8146 - CREDITO D.L.3/20 TOT DETR. TEO',
           unityValue: 1961.53,
           frequency: 1,
         },
         {
-          code: '9488',
-          description: 'ARROTONDAMENTO NETTO',
+          description: '9488 - ARROTONDAMENTO NETTO',
           amount: 0.26,
+        },
+        {
+          description: 'Sociale - INPS',
+          taxableAmount: 1420,
+          withholdings: 134.76,
         },
       ];
     return [];

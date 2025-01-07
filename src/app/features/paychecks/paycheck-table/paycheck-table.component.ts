@@ -13,21 +13,10 @@ export class PaycheckTableComponent {
     year: 0,
   };
 
-  private _displayableColumns: string[] = [
-    'code',
-    'description',
-    'unityValue',
-    'frequency',
-    'amount',
-  ];
-
   constructor(private readonly paycheckService: PaycheckService) {}
 
   public get displayableColumns(): string[] {
-    return this._displayableColumns;
-  }
-  public set displayableColumns(value: string[]) {
-    this._displayableColumns = value;
+    return ['description', 'unityValue', 'frequency', 'amount'];
   }
 
   public get paycheckEntryList(): PaycheckEntry[] {
@@ -36,5 +25,15 @@ export class PaycheckTableComponent {
 
   public get totalAmount(): number {
     return this.paycheckService.fetchPaychecksTotalAmount(this.referencePeriod);
+  }
+
+  public isCompensationRow(index: number, row: PaycheckEntry): boolean {
+    if (!row.withholdings) return true;
+    return false;
+  }
+
+  public isWithholdingRow(index: number, row: PaycheckEntry): boolean {
+    if (row.withholdings) return true;
+    return false;
   }
 }
