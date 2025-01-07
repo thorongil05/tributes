@@ -4,5 +4,5 @@ export interface PaycheckEntry {
   unityValue?: number;
   frequency?: number;
   withholdings?: number;
-  amount: number;
+  amount?: number;
 }
