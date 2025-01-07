@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PaycheckEntry } from '../model/paycheck';
+import { PaycheckEntry, PaycheckPeriod } from '../model/paycheck';
 
 @Injectable({
   providedIn: 'root',
@@ -7,12 +7,9 @@ import { PaycheckEntry } from '../model/paycheck';
 export class PaycheckService {
   constructor() {}
 
-  public fetchPaychecksByMonthYear(
-    month: number,
-    year: number,
-  ): PaycheckEntry[] {
-    if (month == 0 || year == 0) return [];
-    if (month == 3 && year == 2023)
+  public fetchPaychecksByPeriod(period: PaycheckPeriod): PaycheckEntry[] {
+    if (period.month == 0 || period.year == 0) return [];
+    if (period.month == 3 && period.year == 2023)
       return [
         {
           code: '1000',
@@ -43,10 +40,17 @@ export class PaycheckService {
     return [];
   }
 
-  public fetchPaychecksTotalAmount(month: number, year: number) {
-    let entries = this.fetchPaychecksByMonthYear(month, year);
+  public fetchPaychecksTotalAmount(period: PaycheckPeriod) {
+    let entries = this.fetchPaychecksByPeriod(period);
     return entries
       .map((entry) => (entry.amount ? entry.amount : 0))
       .reduce((sum, current) => sum + current, 0);
+  }
+
+  public fetchPeriods(): PaycheckPeriod[] {
+    return [
+      { month: 3, year: 2023 },
+      { month: 4, year: 2023 },
+    ];
   }
 }

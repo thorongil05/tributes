@@ -5,6 +5,7 @@ import { PaychecksHomeComponent } from './paychecks-home/paychecks-home.componen
 import { PaycheckTableComponent } from './paycheck-table/paycheck-table.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatButton } from '@angular/material/button';
 
 @NgModule({
   declarations: [PaychecksHomeComponent, PaycheckTableComponent],
@@ -13,6 +14,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     PaychecksRoutingModule,
     MatTableModule,
     MatTabsModule,
+    MatButton,
   ],
 })
 export class PaychecksModule {}

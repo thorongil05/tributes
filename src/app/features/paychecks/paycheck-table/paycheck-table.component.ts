@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { PaycheckEntry } from '../model/paycheck';
+import { PaycheckEntry, PaycheckPeriod } from '../model/paycheck';
 import { PaycheckService } from '../service/paycheck.service';
 
 @Component({
@@ -8,8 +8,10 @@ import { PaycheckService } from '../service/paycheck.service';
   styleUrl: './paycheck-table.component.scss',
 })
 export class PaycheckTableComponent {
-  @Input() referenceMonth: number = 0;
-  @Input() referenceYear: number = 0;
+  @Input() referencePeriod: PaycheckPeriod = {
+    month: 0,
+    year: 0,
+  };
 
   private _displayableColumns: string[] = [
     'code',
@@ -29,16 +31,10 @@ export class PaycheckTableComponent {
   }
 
   public get paycheckEntryList(): PaycheckEntry[] {
-    return this.paycheckService.fetchPaychecksByMonthYear(
-      this.referenceMonth,
-      this.referenceYear,
-    );
+    return this.paycheckService.fetchPaychecksByPeriod(this.referencePeriod);
   }
 
   public get totalAmount(): number {
-    return this.paycheckService.fetchPaychecksTotalAmount(
-      this.referenceMonth,
-      this.referenceYear,
-    );
+    return this.paycheckService.fetchPaychecksTotalAmount(this.referencePeriod);
   }
 }

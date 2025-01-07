@@ -1,15 +1,9 @@
-<p>paychecks-home works!</p>
-<mat-tab-group>
-  <mat-tab label="Marzo 2023">
-    <app-paycheck-table
-      [referenceMonth]="3"
-      [referenceYear]="2023"
-    ></app-paycheck-table>
-  </mat-tab>
-  <mat-tab label="Aprile 2023">
-    <app-paycheck-table
-      [referenceMonth]="4"
-      [referenceYear]="2023"
-    ></app-paycheck-table>
-  </mat-tab>
+<button mat-button (click)="downloadJson()">Download</button>
+<button mat-button>Upload</button>
+<mat-tab-group (selectedIndexChange)="onSelectedIndexChanged($event)">
+  @for (period of paycheckPeriodList; track $index) {
+    <mat-tab label="{{ getMonthName(period.month) }} 2023">
+      <app-paycheck-table [referencePeriod]="period"></app-paycheck-table>
+    </mat-tab>
+  }
 </mat-tab-group>

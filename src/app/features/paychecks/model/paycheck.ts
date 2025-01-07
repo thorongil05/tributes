@@ -1,3 +1,7 @@
+export interface Paycheck {
+  period: PaycheckPeriod;
+  entries: PaycheckEntry[];
+}
 export interface PaycheckEntry {
   code: string;
   description: string;
@@ -5,4 +9,9 @@ export interface PaycheckEntry {
   frequency?: number;
   withholdings?: number;
   amount?: number;
+}
+
+export interface PaycheckPeriod {
+  month: number;
+  year: number;
 }
