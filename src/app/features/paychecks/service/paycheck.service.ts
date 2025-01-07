@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { PaycheckEntry, PaycheckPeriod } from '../model/paycheck';
+import {
+  PaycheckEntry,
+  PaycheckPeriod,
+  PaycheckWithholding,
+} from '../model/paycheck';
 
 @Injectable({
   providedIn: 'root',
@@ -45,6 +49,40 @@ export class PaycheckService {
     return entries
       .map((entry) => (entry.amount ? entry.amount : 0))
       .reduce((sum, current) => sum + current, 0);
+  }
+
+  public fetchPaychecksTotalWithHolding(period: PaycheckPeriod) {
+    let entries = this.fetchPaychecksWithHoldingByPeriod(period);
+    return entries
+      .map((entry) => entry.withHoldingAmount)
+      .reduce((sum, current) => sum + current, 0);
+  }
+
+  public fetchPaychecksWithHoldingByPeriod(
+    period: PaycheckPeriod,
+  ): PaycheckWithholding[] {
+    if (period.month == 0 || period.year == 0) return [];
+    if (period.month == 3 && period.year == 2023)
+      return [
+        {
+          type: 'Sociale',
+          taxableAmount: 1420,
+          withHoldingAmount: 134.76,
+        },
+        {
+          type: 'Fiscale',
+          taxableAmount: 1327.97,
+          withHoldingAmount: 180.22,
+        },
+      ];
+    return [];
+  }
+
+  public fetchNetAmountByPeriod(period: PaycheckPeriod): number {
+    return (
+      this.fetchPaychecksTotalAmount(period) -
+      this.fetchPaychecksTotalWithHolding(period)
+    );
   }
 
   public fetchPeriods(): PaycheckPeriod[] {

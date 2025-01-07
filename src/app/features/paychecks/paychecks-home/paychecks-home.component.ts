@@ -63,4 +63,8 @@ export class PaychecksHomeComponent implements OnInit {
   onSelectedIndexChanged(selectedIndex: number) {
     this._selectedPeriod = this.paycheckPeriodList[selectedIndex];
   }
+
+  public get netAmountForPeriod(): number {
+    return this.paycheckService.fetchNetAmountByPeriod(this.selectedPeriod);
+  }
 }

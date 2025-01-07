@@ -15,3 +15,9 @@ export interface PaycheckPeriod {
   month: number;
   year: number;
 }
+
+export interface PaycheckWithholding {
+  type: string;
+  taxableAmount: number;
+  withHoldingAmount: number;
+}
