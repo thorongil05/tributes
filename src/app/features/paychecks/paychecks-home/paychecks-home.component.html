@@ -6,7 +6,7 @@
 <div class="row">
   <mat-tab-group (selectedIndexChange)="onSelectedIndexChanged($event)">
     @for (period of paycheckPeriodList; track $index) {
-      <mat-tab label="{{ getMonthName(period.month) }} 2023">
+      <mat-tab label="{{ getMonthName(period.month) }} {{ selectedYear }}">
         <div class="row m-0">
           <app-single-paycheck-horizontal-menu
             [referencePeriod]="period"

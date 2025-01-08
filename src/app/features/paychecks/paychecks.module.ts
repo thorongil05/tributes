@@ -5,7 +5,7 @@ import { PaychecksHomeComponent } from './paychecks-home/paychecks-home.componen
 import { PaycheckTableComponent } from './paycheck-table/paycheck-table.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
-import { MatButton } from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { SinglePaycheckHorizontalMenuComponent } from './single-paycheck-horizontal-menu/single-paycheck-horizontal-menu.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
@@ -24,7 +24,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     PaychecksRoutingModule,
     MatTableModule,
     MatTabsModule,
-    MatButton,
+    MatButtonModule,
     MatIconModule,
     MatSelectModule,
     ReactiveFormsModule,
