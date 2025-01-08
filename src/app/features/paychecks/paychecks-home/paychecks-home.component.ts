@@ -30,26 +30,6 @@ export class PaychecksHomeComponent implements OnInit {
     this.refresh();
   }
 
-  downloadJson() {
-    let selectedPaycheck = this.paycheckService.fetchPaychecksByPeriod(
-      this.selectedPeriod,
-    );
-    const blob = new Blob([JSON.stringify(selectedPaycheck, null, 2)], {
-      type: 'application/json',
-    });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download =
-      'paycheck-' +
-      this.selectedPeriod.year +
-      '-' +
-      this.selectedPeriod.month +
-      '.json';
-    a.click();
-    window.URL.revokeObjectURL(url);
-  }
-
   getMonthName(monthNumber: number): string {
     // Ensure the monthNumber is valid (1-12)
     if (monthNumber < 1 || monthNumber > 12) {

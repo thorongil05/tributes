@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { PaycheckService } from '../service/paycheck.service';
+import { PaycheckFileIoService } from '../service/paycheck-file-io.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-paycheck-horizontal-menu',
@@ -11,7 +13,11 @@ export class PaycheckHorizontalMenuComponent {
   @Output() selectedYearEventEmitter: EventEmitter<number> =
     new EventEmitter<number>();
 
-  constructor(private readonly paycheckService: PaycheckService) {}
+  constructor(
+    private readonly paycheckService: PaycheckService,
+    private readonly paycheckFileIOService: PaycheckFileIoService,
+    private readonly matSnackBar: MatSnackBar,
+  ) {}
 
   formGroup: FormGroup = new FormGroup({
     yearFormControl: new FormControl<number>(new Date().getFullYear()),
@@ -26,5 +32,51 @@ export class PaycheckHorizontalMenuComponent {
     if (newSelectedYear) {
       this.selectedYearEventEmitter.emit(newSelectedYear);
     }
+  }
+
+  public importPaychecksFromFile() {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = '.json'; // Restrict to JSON files
+    fileInput.style.display = 'none'; // Hide it from view
+
+    // Add an event listener to handle file selection
+    fileInput.addEventListener('change', (event: Event) =>
+      this.paycheckFileIOService
+        .fetchPaycheckDataFromFileSelectedEvent(event)
+        .subscribe({
+          next: (value) => {
+            console.log('Next -> ', value);
+            this.paycheckService.addPaycheckList(value);
+          },
+          error: (error) => this.openSnackBar(error.message, 'Close'),
+        }),
+    );
+
+    // Append to the DOM temporarily
+    document.body.appendChild(fileInput);
+
+    // Trigger the file input click event
+    fileInput.click();
+
+    // Remove the file input from the DOM after use
+    fileInput.remove();
+  }
+
+  public exportPaychecksToFile() {
+    let selectedPaycheck = this.paycheckService.fetchPaychecks();
+    const blob = new Blob([JSON.stringify(selectedPaycheck, null, 2)], {
+      type: 'application/json',
+    });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'paychecks.json';
+    a.click();
+    window.URL.revokeObjectURL(url);
+  }
+
+  public openSnackBar(message: string, action: string) {
+    this.matSnackBar.open(message, action);
   }
 }

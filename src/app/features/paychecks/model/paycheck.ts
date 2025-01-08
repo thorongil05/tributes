@@ -4,7 +4,7 @@ export interface Paycheck {
 }
 export interface PaycheckEntry {
   code?: string;
-  type?: string;
+  type: PaycheckEntryType;
   description?: string;
   unityValue?: number;
   frequency?: number;
@@ -22,4 +22,10 @@ export interface PaycheckWithholding {
   type: string;
   taxableAmount: number;
   withHoldingAmount: number;
+}
+
+export enum PaycheckEntryType {
+  WITHHOLDING,
+  COMPENSATION,
+  UNDEF,
 }

@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { PaycheckHorizontalMenuComponent } from './paycheck-horizontal-menu/paycheck-horizontal-menu.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatIconModule,
     MatSelectModule,
     ReactiveFormsModule,
+    MatSnackBarModule,
   ],
 })
 export class PaychecksModule {}
