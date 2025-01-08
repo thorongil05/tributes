@@ -91,7 +91,7 @@ export class PaycheckService {
     );
   }
 
-  public fetchPeriods(): PaycheckPeriod[] {
+  public fetchPeriods(year: number): PaycheckPeriod[] {
     return [
       { month: 3, year: 2023 },
       { month: 4, year: 2023 },
@@ -103,6 +103,10 @@ export class PaycheckService {
       { month: 10, year: 2023 },
       { month: 11, year: 2023 },
       { month: 12, year: 2023 },
-    ];
+    ].filter((value) => value.year == year);
+  }
+
+  public fetchYears(): number[] {
+    return [2023, 2024];
   }
 }

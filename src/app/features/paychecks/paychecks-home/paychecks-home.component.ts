@@ -10,6 +10,7 @@ import { PaycheckService } from '../service/paycheck.service';
 export class PaychecksHomeComponent implements OnInit {
   private _paycheckPeriodList: PaycheckPeriod[] = [];
   private _selectedPeriod: PaycheckPeriod = { month: 0, year: 0 };
+  private _selectedYear: number = new Date().getFullYear();
 
   constructor(private readonly paycheckService: PaycheckService) {}
 
@@ -21,9 +22,12 @@ export class PaychecksHomeComponent implements OnInit {
     return this._selectedPeriod;
   }
 
+  public get selectedYear(): number {
+    return this._selectedYear;
+  }
+
   ngOnInit(): void {
-    this._paycheckPeriodList = this.paycheckService.fetchPeriods();
-    this._selectedPeriod = this.paycheckPeriodList[0];
+    this.refresh();
   }
 
   downloadJson() {
@@ -62,5 +66,17 @@ export class PaychecksHomeComponent implements OnInit {
 
   onSelectedIndexChanged(selectedIndex: number) {
     this._selectedPeriod = this.paycheckPeriodList[selectedIndex];
+  }
+
+  onYearSelectionChanged(newSelectedYear: number) {
+    this._selectedYear = newSelectedYear;
+    this.refresh();
+  }
+
+  refresh() {
+    this._paycheckPeriodList = this.paycheckService.fetchPeriods(
+      this.selectedYear,
+    );
+    this._selectedPeriod = this.paycheckPeriodList[0];
   }
 }

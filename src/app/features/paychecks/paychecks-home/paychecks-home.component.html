@@ -1,12 +1,20 @@
 <div class="row">
-  <button mat-button (click)="downloadJson()">Download</button>
-  <button mat-button>Upload</button>
+  <app-paycheck-horizontal-menu
+    (selectedYearEventEmitter)="onYearSelectionChanged($event)"
+  ></app-paycheck-horizontal-menu>
 </div>
 <div class="row">
   <mat-tab-group (selectedIndexChange)="onSelectedIndexChanged($event)">
     @for (period of paycheckPeriodList; track $index) {
       <mat-tab label="{{ getMonthName(period.month) }} 2023">
-        <app-paycheck-table [referencePeriod]="period"></app-paycheck-table>
+        <div class="row m-0">
+          <app-single-paycheck-horizontal-menu
+            [referencePeriod]="period"
+          ></app-single-paycheck-horizontal-menu>
+        </div>
+        <div class="row m-0">
+          <app-paycheck-table [referencePeriod]="period"></app-paycheck-table>
+        </div>
       </mat-tab>
     }
   </mat-tab-group>

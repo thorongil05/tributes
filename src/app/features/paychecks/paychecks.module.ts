@@ -6,15 +6,28 @@ import { PaycheckTableComponent } from './paycheck-table/paycheck-table.componen
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatButton } from '@angular/material/button';
+import { SinglePaycheckHorizontalMenuComponent } from './single-paycheck-horizontal-menu/single-paycheck-horizontal-menu.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import { PaycheckHorizontalMenuComponent } from './paycheck-horizontal-menu/paycheck-horizontal-menu.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [PaychecksHomeComponent, PaycheckTableComponent],
+  declarations: [
+    PaychecksHomeComponent,
+    PaycheckTableComponent,
+    SinglePaycheckHorizontalMenuComponent,
+    PaycheckHorizontalMenuComponent,
+  ],
   imports: [
     CommonModule,
     PaychecksRoutingModule,
     MatTableModule,
     MatTabsModule,
     MatButton,
+    MatIconModule,
+    MatSelectModule,
+    ReactiveFormsModule,
   ],
 })
 export class PaychecksModule {}
