@@ -4,7 +4,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SideBarComponent } from './side-bar/side-bar.component';
-import { InvestmentsModule } from './investments/investments.module';
 import { FeaturesModule } from './features/features.module';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
@@ -25,7 +24,6 @@ console.log(browserLang);
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    InvestmentsModule,
     FeaturesModule,
   ],
   providers: [
