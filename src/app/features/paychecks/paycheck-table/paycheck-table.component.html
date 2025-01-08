@@ -2,12 +2,11 @@
   mat-table
   [dataSource]="paycheckEntryList"
   class="mat-elevation-z8"
-  multiTemplateDataRows=""
+  multiTemplateDataRows
 >
   <ng-container matColumnDef="description">
     <th mat-header-cell *matHeaderCellDef>Description</th>
     <td mat-cell *matCellDef="let element">{{ element.description }}</td>
-    <td mat-footer-cell *matFooterCellDef>Totale Competenze</td>
     <td mat-footer-cell *matFooterCellDef>Totale Competenze</td>
   </ng-container>
   <ng-container matColumnDef="unityValue">
@@ -28,9 +27,13 @@
     <th mat-header-cell *matHeaderCellDef>Importo</th>
     <td mat-cell *matCellDef="let element">
       @if (element.amount) {
-        {{ element.amount | currency: "EUR" }}
+        <p class="compensation-amount">
+          + {{ element.amount | currency: "EUR" }}
+        </p>
       } @else if (element.withholdings) {
-        {{ element.withholdings | currency: "EUR" }}
+        <p class="withholdings-amount">
+          - {{ element.withholdings | currency: "EUR" }}
+        </p>
       } @else {
         -
       }
@@ -38,29 +41,36 @@
     <td mat-footer-cell *matFooterCellDef>
       {{ totalAmount | currency: "EUR" }}
     </td>
-    <td mat-footer-cell *matFooterCellDef>
-      {{ totalAmount | currency: "EUR" }}
-    </td>
-  </ng-container>
-  <!-- Secondary Column -->
-  <ng-container matColumnDef="type">
-    <td mat-cell *matCellDef="let element" colspan="4">
-      {{ element.type }}
-    </td>
   </ng-container>
   <ng-container matColumnDef="taxableAmount">
+    <th mat-header-cell *matHeaderCellDef>Imponibile</th>
     <td mat-cell *matCellDef="let element">
       {{ element.taxableAmount | currency: "EUR" }}
     </td>
+    <td mat-footer-cell *matFooterCellDef></td>
+  </ng-container>
+  <ng-container matColumnDef="footer-total-compensation-label">
+    <td mat-footer-cell *matFooterCellDef colspan="4">Totale competenze</td>
   </ng-container>
   <ng-container matColumnDef="totalCompensation">
     <td mat-footer-cell *matFooterCellDef>
       {{ totalAmount | currency: "EUR" }}
     </td>
   </ng-container>
+  <ng-container matColumnDef="footer-total-withholdings-label">
+    <td mat-footer-cell *matFooterCellDef colspan="4">Totale trattenute</td>
+  </ng-container>
   <ng-container matColumnDef="totalWithholdings">
     <td mat-footer-cell *matFooterCellDef>
-      {{ totalAmount | currency: "EUR" }}
+      {{ withHoldings | currency: "EUR" }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="footer-net-amount-label">
+    <td mat-footer-cell *matFooterCellDef colspan="4">Netto</td>
+  </ng-container>
+  <ng-container matColumnDef="netAmount">
+    <td mat-footer-cell *matFooterCellDef>
+      {{ netAmount | currency: "EUR" }}
     </td>
   </ng-container>
 
@@ -73,7 +83,16 @@
     mat-row
     *matRowDef="let row; columns: displayableColumns; when: isWithholdingRow"
   ></tr>
-  <tr mat-footer-row *matFooterRowDef="displayableColumns"></tr>
-  <tr mat-footer-row *matFooterRowDef="['totalCompensation']"></tr>
-  <tr mat-footer-row *matFooterRowDef="['totalWithholdings']"></tr>
+  <tr
+    mat-footer-row
+    *matFooterRowDef="['footer-total-compensation-label', 'totalCompensation']"
+  ></tr>
+  <tr
+    mat-footer-row
+    *matFooterRowDef="['footer-total-withholdings-label', 'totalWithholdings']"
+  ></tr>
+  <tr
+    mat-footer-row
+    *matFooterRowDef="['footer-net-amount-label', 'netAmount']"
+  ></tr>
 </table>

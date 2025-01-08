@@ -41,6 +41,11 @@ export class PaycheckService {
           taxableAmount: 1420,
           withholdings: 134.76,
         },
+        {
+          description: 'Fiscale - IRPEF',
+          taxableAmount: 1327.96,
+          withholdings: 180.22,
+        },
       ];
     return [];
   }
