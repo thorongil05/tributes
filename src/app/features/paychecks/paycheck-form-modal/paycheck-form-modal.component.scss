@@ -1,0 +1,13 @@
+.tabular-input,
+.tabular-input:focus {
+    background-color: transparent;
+    border: 0;
+    outline: none;
+    display: block;
+    width: 100%;
+    color: var(--mdc-dialog-supporting-text-color);
+}
+
+.tabular-input::-webkit-inner-spin-button {
+    opacity: 1;
+}

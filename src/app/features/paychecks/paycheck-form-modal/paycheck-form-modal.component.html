@@ -1,0 +1,148 @@
+<mat-dialog-content>
+  <form [formGroup]="formGroup">
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Inserisci retribuzione oraria</mat-label>
+          <input
+            matInput
+            placeholder="88.76"
+            type="number"
+            min="0"
+            step="0.01"
+            formControlName="salaryUnityValueFormControl"
+          />
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Inserisci frequenza</mat-label>
+          <input
+            matInput
+            placeholder="22"
+            type="number"
+            min="0"
+            formControlName="salaryFrequencyFormControl"
+          />
+        </mat-form-field>
+      </div>
+      <div class="col">{{ salary | currency: "EUR" }}</div>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="row">Altri Compensi</div>
+    <div class="row">
+      <form
+        [formGroup]="formGroupOtherCompensations"
+        (submit)="this.addOtherCompensation()"
+      >
+        <div class="row">
+          <div class="col">
+            <mat-form-field appearance="outline">
+              <mat-label>Inserisci Descrizione</mat-label>
+              <input
+                matInput
+                type="text"
+                formControlName="descriptionFormControl"
+              />
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field appearance="outline">
+              <mat-label>Inserisci frequenza</mat-label>
+              <input
+                matInput
+                type="number"
+                min="0"
+                formControlName="frequencyFormControl"
+              />
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field appearance="outline">
+              <mat-label>Inserisci retribuzione oraria</mat-label>
+              <input
+                matInput
+                type="number"
+                min="0"
+                step="0.01"
+                formControlName="unitValueFormControl"
+              />
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-checkbox
+              formControlName="isUsedInSocialContributionFormControl"
+              >Imponibile INPS</mat-checkbox
+            >
+          </div>
+          <div class="col">
+            <mat-checkbox formControlName="isUsedInIncomeTaxFormControl"
+              >Imponibile IRPEF</mat-checkbox
+            >
+          </div>
+          <div class="col">
+            <button
+              mat-fab
+              type="submit"
+              [disabled]="!this.formGroupOtherCompensations.valid"
+            >
+              <mat-icon fontIcon="add"></mat-icon>
+            </button>
+          </div>
+        </div>
+      </form>
+      @for (item of otherCompensations; track $index) {
+        <div class="row">
+          <div class="col">{{ item.description }}</div>
+          <div class="col">{{ item.frequency }}</div>
+          <div class="col">{{ item.unitValue }}</div>
+          <div class="col">{{ item.isConsideredInIncomeTaxation }}</div>
+          <div class="col">{{ item.isConsideredInSocialContribution }}</div>
+        </div>
+      }
+    </div>
+
+    <mat-divider></mat-divider>
+    <div class="row">Trattenute</div>
+    <div class="row">
+      <div class="col">INPS</div>
+      <div class="col">{{ salary | currency: "EUR" }}</div>
+      <div class="col">{{ roundedSalary | currency: "EUR" }}</div>
+      <div class="col">
+        <input
+          matInput
+          type="number"
+          min="0"
+          step="0.001"
+          formControlName="socialContributionRateFormControl"
+          class="tabular-input"
+        />
+      </div>
+      <div class="col">
+        {{ socialContributionWithholding | currency: "EUR" }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">IRPEF</div>
+      <div class="col">
+        {{ incomeTaxableAmount | currency: "EUR" }}
+      </div>
+      <div class="col">-</div>
+      <div class="col">
+        <input
+          matInput
+          type="number"
+          min="0"
+          step="0.001"
+          formControlName="incomeTaxRateFormControl"
+          class="tabular-input"
+        />
+      </div>
+      <div class="col">{{ incomeTaxWithholding | currency: "EUR" }}</div>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button>
+</mat-dialog-actions>

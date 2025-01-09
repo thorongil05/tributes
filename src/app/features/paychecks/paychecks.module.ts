@@ -12,6 +12,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { PaycheckHorizontalMenuComponent } from './paycheck-horizontal-menu/paycheck-horizontal-menu.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
+import { PaycheckFormModalComponent } from './paycheck-form-modal/paycheck-form-modal.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -19,6 +25,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     PaycheckTableComponent,
     SinglePaycheckHorizontalMenuComponent,
     PaycheckHorizontalMenuComponent,
+    PaycheckFormModalComponent,
   ],
   imports: [
     CommonModule,
@@ -30,6 +37,11 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatSelectModule,
     ReactiveFormsModule,
     MatSnackBarModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDividerModule,
+    MatCheckboxModule,
   ],
 })
 export class PaychecksModule {}

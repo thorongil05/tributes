@@ -3,6 +3,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { PaycheckService } from '../service/paycheck.service';
 import { PaycheckFileIoService } from '../service/paycheck-file-io.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { PaycheckFormModalComponent } from '../paycheck-form-modal/paycheck-form-modal.component';
 
 @Component({
   selector: 'app-paycheck-horizontal-menu',
@@ -17,6 +19,7 @@ export class PaycheckHorizontalMenuComponent {
     private readonly paycheckService: PaycheckService,
     private readonly paycheckFileIOService: PaycheckFileIoService,
     private readonly matSnackBar: MatSnackBar,
+    private readonly matDialog: MatDialog,
   ) {}
 
   formGroup: FormGroup = new FormGroup({
@@ -78,5 +81,17 @@ export class PaycheckHorizontalMenuComponent {
 
   public openSnackBar(message: string, action: string) {
     this.matSnackBar.open(message, action);
+  }
+
+  public openPaycheckFormModal() {
+    const dialogRef = this.matDialog.open(PaycheckFormModalComponent, {
+      data: {},
+      minWidth: '1200px',
+      minHeight: '500px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog has closes');
+    });
   }
 }
