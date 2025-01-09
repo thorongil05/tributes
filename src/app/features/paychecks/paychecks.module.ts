@@ -18,6 +18,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCardModule } from '@angular/material/card';
+import { OtherCompensationsFormSectionComponent } from './other-compensations-form-section/other-compensations-form-section.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -26,6 +29,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     SinglePaycheckHorizontalMenuComponent,
     PaycheckHorizontalMenuComponent,
     PaycheckFormModalComponent,
+    OtherCompensationsFormSectionComponent,
   ],
   imports: [
     CommonModule,
@@ -42,6 +46,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatInputModule,
     MatDividerModule,
     MatCheckboxModule,
+    MatCardModule,
+    MatTooltipModule,
   ],
 })
 export class PaychecksModule {}

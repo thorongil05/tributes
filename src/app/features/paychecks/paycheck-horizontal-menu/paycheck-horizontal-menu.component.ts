@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { PaycheckService } from '../service/paycheck.service';
 import { PaycheckFileIoService } from '../service/paycheck-file-io.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { PaycheckFormModalComponent } from '../paycheck-form-modal/paycheck-form-modal.component';
 
 @Component({

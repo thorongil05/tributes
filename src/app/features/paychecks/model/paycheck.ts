@@ -29,3 +29,12 @@ export enum PaycheckEntryType {
   COMPENSATION,
   UNDEF,
 }
+
+export interface OtherCompensation {
+  description: string;
+  frequency: number;
+  unitValue: number;
+  isConsideredInSocialContribution: boolean;
+  isConsideredInIncomeTaxation: boolean;
+  amount: number;
+}

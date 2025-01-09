@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
+import { OtherCompensation } from '../model/paycheck';
 
 @Component({
   selector: 'app-paycheck-form-modal',
@@ -7,10 +8,14 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrl: './paycheck-form-modal.component.scss',
 })
 export class PaycheckFormModalComponent {
-  private readonly _otherCompensations: OtherCompensation[] = [];
+  private _otherCompensations: OtherCompensation[] = [];
 
   public get otherCompensations(): OtherCompensation[] {
     return this._otherCompensations;
+  }
+
+  public set otherCompensations(v: OtherCompensation[]) {
+    this._otherCompensations = v;
   }
 
   public get salary(): number {
@@ -39,8 +44,40 @@ export class PaycheckFormModalComponent {
     return this.formGroup.get('incomeTaxRateFormControl')?.value;
   }
 
+  public get otherCompensationsConsideredInIncomeTax(): number {
+    return this.otherCompensations
+      .filter((value) => value.isConsideredInIncomeTaxation)
+      .map((value) => value.amount)
+      .reduce((sum, value) => sum + value, 0);
+  }
+
+  public get otherCompensationsConsideredInSocialContributionAmount(): number {
+    return this.otherCompensations
+      .filter((value) => value.isConsideredInSocialContribution)
+      .map((value) => value.amount)
+      .reduce((sum, value) => sum + value, 0);
+  }
+
   public get incomeTaxableAmount(): number {
-    return this.salary - this.socialContributionWithholding;
+    return (
+      this.salary +
+      this.otherCompensationsConsideredInIncomeTax -
+      this.socialContributionWithholding
+    );
+  }
+
+  public get incomeTaxableAmountTooltip(): string {
+    return `${this.salary} + ${this.otherCompensationsConsideredInIncomeTax} - ${this.socialContributionWithholding}`;
+  }
+
+  public get socialContributionTaxableAmount(): number {
+    return (
+      this.salary + this.otherCompensationsConsideredInSocialContributionAmount
+    );
+  }
+
+  public get socialContributionTaxableAmountTooltip(): string {
+    return `${this.salary} + ${this.otherCompensationsConsideredInIncomeTax}`;
   }
 
   public get incomeTaxWithholding(): number {
@@ -54,42 +91,9 @@ export class PaycheckFormModalComponent {
     incomeTaxRateFormControl: new FormControl<number>(0.1357),
   });
 
-  formGroupOtherCompensations = new FormGroup({
-    descriptionFormControl: new FormControl<string>('', [Validators.required]),
-    frequencyFormControl: new FormControl<number>(0, Validators.required),
-    unitValueFormControl: new FormControl<number>(0, Validators.required),
-    isUsedInSocialContributionFormControl: new FormControl<boolean>(false),
-    isUsedInIncomeTaxFormControl: new FormControl<boolean>(false),
-  });
-
-  public addOtherCompensation() {
-    if (!this.formGroupOtherCompensations.valid) {
-      throw new Error(
-        'Cannot add other compensations if the form is not valid',
-      );
-    }
-    let value = this.formGroupOtherCompensations.value;
-    this.otherCompensations.push({
-      description: value.descriptionFormControl
-        ? value.descriptionFormControl
-        : '',
-      frequency: value.frequencyFormControl ? value.frequencyFormControl : 0,
-      unitValue: value.unitValueFormControl ? value.unitValueFormControl : 0,
-      isConsideredInIncomeTaxation: value.isUsedInIncomeTaxFormControl
-        ? value.isUsedInIncomeTaxFormControl
-        : false,
-      isConsideredInSocialContribution:
-        value.isUsedInSocialContributionFormControl
-          ? value.isUsedInSocialContributionFormControl
-          : false,
-    });
+  public onOtherCompensationListChanged(
+    otherCompensations: OtherCompensation[],
+  ) {
+    this.otherCompensations = otherCompensations;
   }
-}
-
-interface OtherCompensation {
-  description: string;
-  frequency: number;
-  unitValue: number;
-  isConsideredInSocialContribution: boolean;
-  isConsideredInIncomeTaxation: boolean;
 }

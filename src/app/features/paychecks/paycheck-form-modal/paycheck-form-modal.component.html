@@ -26,87 +26,27 @@
           />
         </mat-form-field>
       </div>
-      <div class="col">{{ salary | currency: "EUR" }}</div>
+      <div class="col">
+        <mat-card appearance="outlined">
+          <mat-card-content>{{ salary | currency: "EUR" }}</mat-card-content>
+        </mat-card>
+      </div>
     </div>
     <mat-divider></mat-divider>
-    <div class="row">Altri Compensi</div>
     <div class="row">
-      <form
-        [formGroup]="formGroupOtherCompensations"
-        (submit)="this.addOtherCompensation()"
-      >
-        <div class="row">
-          <div class="col">
-            <mat-form-field appearance="outline">
-              <mat-label>Inserisci Descrizione</mat-label>
-              <input
-                matInput
-                type="text"
-                formControlName="descriptionFormControl"
-              />
-            </mat-form-field>
-          </div>
-          <div class="col">
-            <mat-form-field appearance="outline">
-              <mat-label>Inserisci frequenza</mat-label>
-              <input
-                matInput
-                type="number"
-                min="0"
-                formControlName="frequencyFormControl"
-              />
-            </mat-form-field>
-          </div>
-          <div class="col">
-            <mat-form-field appearance="outline">
-              <mat-label>Inserisci retribuzione oraria</mat-label>
-              <input
-                matInput
-                type="number"
-                min="0"
-                step="0.01"
-                formControlName="unitValueFormControl"
-              />
-            </mat-form-field>
-          </div>
-          <div class="col">
-            <mat-checkbox
-              formControlName="isUsedInSocialContributionFormControl"
-              >Imponibile INPS</mat-checkbox
-            >
-          </div>
-          <div class="col">
-            <mat-checkbox formControlName="isUsedInIncomeTaxFormControl"
-              >Imponibile IRPEF</mat-checkbox
-            >
-          </div>
-          <div class="col">
-            <button
-              mat-fab
-              type="submit"
-              [disabled]="!this.formGroupOtherCompensations.valid"
-            >
-              <mat-icon fontIcon="add"></mat-icon>
-            </button>
-          </div>
-        </div>
-      </form>
-      @for (item of otherCompensations; track $index) {
-        <div class="row">
-          <div class="col">{{ item.description }}</div>
-          <div class="col">{{ item.frequency }}</div>
-          <div class="col">{{ item.unitValue }}</div>
-          <div class="col">{{ item.isConsideredInIncomeTaxation }}</div>
-          <div class="col">{{ item.isConsideredInSocialContribution }}</div>
-        </div>
-      }
+      <app-other-compensations-form-section
+        (otherCompensationListChangedEvent)="
+          this.onOtherCompensationListChanged($event)
+        "
+      ></app-other-compensations-form-section>
     </div>
-
     <mat-divider></mat-divider>
     <div class="row">Trattenute</div>
     <div class="row">
       <div class="col">INPS</div>
-      <div class="col">{{ salary | currency: "EUR" }}</div>
+      <div class="col" [matTooltip]="socialContributionTaxableAmountTooltip">
+        {{ socialContributionTaxableAmount | currency: "EUR" }}
+      </div>
       <div class="col">{{ roundedSalary | currency: "EUR" }}</div>
       <div class="col">
         <input
@@ -124,7 +64,7 @@
     </div>
     <div class="row">
       <div class="col">IRPEF</div>
-      <div class="col">
+      <div class="col" [matTooltip]="incomeTaxableAmountTooltip">
         {{ incomeTaxableAmount | currency: "EUR" }}
       </div>
       <div class="col">-</div>

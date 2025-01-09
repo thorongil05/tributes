@@ -1,0 +1,74 @@
+<div class="row m-2">Altri compensi</div>
+<div class="row">
+  <form
+    [formGroup]="formGroupOtherCompensations"
+    (submit)="this.addOtherCompensation()"
+  >
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Inserisci Descrizione</mat-label>
+          <input
+            matInput
+            type="text"
+            formControlName="descriptionFormControl"
+          />
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Inserisci frequenza</mat-label>
+          <input
+            matInput
+            type="number"
+            min="0"
+            formControlName="frequencyFormControl"
+          />
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline">
+          <mat-label>Inserisci retribuzione oraria</mat-label>
+          <input
+            matInput
+            type="number"
+            min="0"
+            step="0.01"
+            formControlName="unitValueFormControl"
+          />
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-checkbox formControlName="isUsedInSocialContributionFormControl"
+          >Imponibile INPS</mat-checkbox
+        >
+      </div>
+      <div class="col">
+        <mat-checkbox formControlName="isUsedInIncomeTaxFormControl"
+          >Imponibile IRPEF</mat-checkbox
+        >
+      </div>
+      <div class="col">
+        <button
+          mat-fab
+          type="submit"
+          [disabled]="!this.formGroupOtherCompensations.valid"
+        >
+          <mat-icon fontIcon="add"></mat-icon>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="row">
+  @for (item of otherCompensations; track $index) {
+    <div class="row">
+      <div class="col">{{ item.description }}</div>
+      <div class="col">{{ item.frequency }}</div>
+      <div class="col">{{ item.unitValue }}</div>
+      <div class="col">{{ item.amount | currency: "EUR" }}</div>
+      <div class="col">{{ item.isConsideredInIncomeTaxation }}</div>
+      <div class="col">{{ item.isConsideredInSocialContribution }}</div>
+    </div>
+  }
+</div>
