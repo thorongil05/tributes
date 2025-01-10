@@ -21,6 +21,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatCardModule } from '@angular/material/card';
 import { OtherCompensationsFormSectionComponent } from './other-compensations-form-section/other-compensations-form-section.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { SalaryInputFormComponent } from './salary-input-form/salary-input-form.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     PaycheckHorizontalMenuComponent,
     PaycheckFormModalComponent,
     OtherCompensationsFormSectionComponent,
+    SalaryInputFormComponent,
   ],
   imports: [
     CommonModule,

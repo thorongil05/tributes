@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { OtherCompensation } from '../model/paycheck';
+import { OtherCompensation, OtherEntry, SalaryEntry } from '../model/paycheck';
 
 @Component({
   selector: 'app-paycheck-form-modal',
@@ -8,7 +8,24 @@ import { OtherCompensation } from '../model/paycheck';
   styleUrl: './paycheck-form-modal.component.scss',
 })
 export class PaycheckFormModalComponent {
+  private _salaryEntry: SalaryEntry = {
+    unitValue: 0,
+    frequency: 0,
+    amount: 0,
+  };
+  private readonly _otherEntries: OtherEntry[] = [];
   private _otherCompensations: OtherCompensation[] = [];
+
+  public get salaryEntry(): SalaryEntry {
+    return this._salaryEntry;
+  }
+  public set salaryEntry(value: SalaryEntry) {
+    this._salaryEntry = value;
+  }
+
+  public get otherEntries(): OtherEntry[] {
+    return this._otherEntries;
+  }
 
   public get otherCompensations(): OtherCompensation[] {
     return this._otherCompensations;
@@ -19,13 +36,7 @@ export class PaycheckFormModalComponent {
   }
 
   public get salary(): number {
-    let salaryUnityValue: number = this.formGroup.get(
-      'salaryUnityValueFormControl',
-    )?.value;
-    let salaryFrequency: number = this.formGroup.get(
-      'salaryFrequencyFormControl',
-    )?.value;
-    return salaryFrequency * salaryUnityValue;
+    return this.salaryEntry.amount;
   }
 
   public get roundedSalary(): number {
@@ -58,6 +69,12 @@ export class PaycheckFormModalComponent {
       .reduce((sum, value) => sum + value, 0);
   }
 
+  public get otherCompensationsAmount(): number {
+    return this.otherCompensations
+      .map((value) => value.amount)
+      .reduce((sum, value) => sum + value, 0);
+  }
+
   public get incomeTaxableAmount(): number {
     return (
       this.salary +
@@ -84,9 +101,32 @@ export class PaycheckFormModalComponent {
     return this.incomeTaxableAmount * this.incomeTaxRate;
   }
 
+  public get withholdingsAmount(): number {
+    return this.incomeTaxWithholding + this.socialContributionWithholding;
+  }
+
+  public get amountWithoutWithholdings(): number {
+    return (
+      this.salary + this.otherCompensationsAmount - this.withholdingsAmount
+    );
+  }
+
+  public get netRounding(): number {
+    return (
+      this.amountWithoutWithholdings -
+      Math.floor(this.amountWithoutWithholdings)
+    );
+  }
+
+  public get netRoundingTooltip(): string {
+    return `${this.amountWithoutWithholdings} - ${Math.floor(this.amountWithoutWithholdings)}`;
+  }
+
+  public get netAmount(): number {
+    return this.amountWithoutWithholdings - this.netRounding;
+  }
+
   formGroup: FormGroup = new FormGroup({
-    salaryUnityValueFormControl: new FormControl<number>(88.76),
-    salaryFrequencyFormControl: new FormControl<number>(16.0),
     socialContributionRateFormControl: new FormControl<number>(0.0949),
     incomeTaxRateFormControl: new FormControl<number>(0.1357),
   });
@@ -95,5 +135,13 @@ export class PaycheckFormModalComponent {
     otherCompensations: OtherCompensation[],
   ) {
     this.otherCompensations = otherCompensations;
+  }
+
+  public onSalaryEntryChanged(salaryEntry: SalaryEntry) {
+    this.salaryEntry = salaryEntry;
+  }
+
+  public onUpdate() {
+    // update all the fields that are interested in generic events
   }
 }

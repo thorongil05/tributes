@@ -1,38 +1,9 @@
 <mat-dialog-content>
   <form [formGroup]="formGroup">
-    <div class="row">
-      <div class="col">
-        <mat-form-field appearance="outline">
-          <mat-label>Inserisci retribuzione oraria</mat-label>
-          <input
-            matInput
-            placeholder="88.76"
-            type="number"
-            min="0"
-            step="0.01"
-            formControlName="salaryUnityValueFormControl"
-          />
-        </mat-form-field>
-      </div>
-      <div class="col">
-        <mat-form-field appearance="outline">
-          <mat-label>Inserisci frequenza</mat-label>
-          <input
-            matInput
-            placeholder="22"
-            type="number"
-            min="0"
-            formControlName="salaryFrequencyFormControl"
-          />
-        </mat-form-field>
-      </div>
-      <div class="col">
-        <mat-card appearance="outlined">
-          <mat-card-content>{{ salary | currency: "EUR" }}</mat-card-content>
-        </mat-card>
-      </div>
-    </div>
-    <mat-divider></mat-divider>
+    <app-salary-input-form
+      (salaryEntryChangeEvent)="onSalaryEntryChanged($event)"
+    ></app-salary-input-form>
+    <mat-divider class="m-2"></mat-divider>
     <div class="row">
       <app-other-compensations-form-section
         (otherCompensationListChangedEvent)="
@@ -40,8 +11,10 @@
         "
       ></app-other-compensations-form-section>
     </div>
-    <mat-divider></mat-divider>
-    <div class="row">Trattenute</div>
+    <mat-divider class="m-2"></mat-divider>
+    <div class="row">
+      <div class="col">Trattenute</div>
+    </div>
     <div class="row">
       <div class="col">INPS</div>
       <div class="col" [matTooltip]="socialContributionTaxableAmountTooltip">
@@ -79,6 +52,25 @@
         />
       </div>
       <div class="col">{{ incomeTaxWithholding | currency: "EUR" }}</div>
+    </div>
+    <mat-divider class="m-2"></mat-divider>
+    <div class="row">
+      <div class="col">Altro</div>
+    </div>
+    <div class="row">
+      <div class="row">
+        <div class="col">Arrotondamento Netto</div>
+        <div class="col" [matTooltip]="netRoundingTooltip">
+          {{ netRounding | currency: "EUR" }}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <mat-card appearance="outlined" class="bg-success">
+        <mat-card-content class="text-white fs-3 text-center">{{
+          netAmount | currency: "EUR"
+        }}</mat-card-content>
+      </mat-card>
     </div>
   </form>
 </mat-dialog-content>

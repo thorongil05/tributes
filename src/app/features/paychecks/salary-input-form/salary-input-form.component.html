@@ -1,0 +1,36 @@
+<form [formGroup]="formGroup" (change)="onFormValueChanged()">
+  <div class="row">
+    <div class="col">
+      <mat-form-field appearance="outline">
+        <mat-label>Inserisci retribuzione oraria</mat-label>
+        <input
+          matInput
+          placeholder="88.76"
+          type="number"
+          min="0"
+          step="0.01"
+          formControlName="salaryUnityValueFormControl"
+        />
+      </mat-form-field>
+    </div>
+    <div class="col">
+      <mat-form-field appearance="outline">
+        <mat-label>Inserisci frequenza</mat-label>
+        <input
+          matInput
+          placeholder="22"
+          type="number"
+          min="0"
+          formControlName="salaryFrequencyFormControl"
+        />
+      </mat-form-field>
+    </div>
+    <div class="col">
+      <mat-card appearance="outlined">
+        <mat-card-content>{{
+          salaryEntry.amount | currency: "EUR"
+        }}</mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</form>

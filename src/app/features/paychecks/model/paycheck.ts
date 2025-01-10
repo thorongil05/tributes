@@ -38,3 +38,14 @@ export interface OtherCompensation {
   isConsideredInIncomeTaxation: boolean;
   amount: number;
 }
+
+export interface OtherEntry {
+  description: string;
+  amount: number;
+}
+
+export interface SalaryEntry {
+  frequency: number;
+  unitValue: number;
+  amount: number;
+}
