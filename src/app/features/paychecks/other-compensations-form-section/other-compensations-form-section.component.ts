@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { OtherCompensation } from '../model/paycheck';
+import { AsyncPipe } from '@angular/common';
+import { map, Observable, startWith } from 'rxjs';
+import { AutocompleteService } from '../service/autocomplete.service';
 
 @Component({
   selector: 'app-other-compensations-form-section',
@@ -9,10 +12,56 @@ import { OtherCompensation } from '../model/paycheck';
 })
 export class OtherCompensationsFormSectionComponent {
   private readonly _otherCompensations: OtherCompensation[] = [];
+  private _options: string[] = [];
 
+  private _filteredOptions: Observable<string[]> = new Observable<string[]>();
   @Output() otherCompensationListChangedEvent = new EventEmitter<
     OtherCompensation[]
   >();
+
+  constructor(private readonly autocompleteService: AutocompleteService) {}
+
+  public get filteredDescriptionOptionsObservable(): Observable<string[]> {
+    return this._filteredOptions;
+  }
+
+  public set filteredDescriptionOptionsObservable(v: Observable<string[]>) {
+    this._filteredOptions = v;
+  }
+  public get descriptionOptionList(): string[] {
+    return this._options;
+  }
+  public set descriptionOptionList(value: string[]) {
+    this._options = value;
+  }
+
+  ngOnInit() {
+    this.autocompleteService.fetchCompensationHeaderCandidates().subscribe({
+      next: (value) => {
+        this.descriptionOptionList = value.map(
+          (entry) => `${entry.code} - ${entry.description}`,
+        );
+      },
+    });
+    let descriptionFormControl = this.formGroupOtherCompensations.get(
+      'descriptionFormControl',
+    );
+    if (descriptionFormControl) {
+      this.filteredDescriptionOptionsObservable =
+        descriptionFormControl.valueChanges.pipe(
+          startWith(''),
+          map((value) => this._filter(value ?? '')),
+        );
+    }
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.descriptionOptionList.filter((option) =>
+      option.toLowerCase().includes(filterValue),
+    );
+  }
 
   public get otherCompensations(): OtherCompensation[] {
     return this._otherCompensations;

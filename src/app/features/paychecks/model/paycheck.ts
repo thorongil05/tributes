@@ -49,3 +49,8 @@ export interface SalaryEntry {
   unitValue: number;
   amount: number;
 }
+
+export interface PaycheckHeader {
+  code: string;
+  description: string;
+}

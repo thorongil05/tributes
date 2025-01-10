@@ -17,10 +17,13 @@
     </div>
     <div class="row">
       <div class="col">INPS</div>
-      <div class="col" [matTooltip]="socialContributionTaxableAmountTooltip">
+      <div
+        class="col text-center"
+        [matTooltip]="socialContributionTaxableAmountTooltip"
+      >
         {{ socialContributionTaxableAmount | currency: "EUR" }}
       </div>
-      <div class="col">{{ roundedSalary | currency: "EUR" }}</div>
+      <div class="col text-center">{{ roundedSalary | currency: "EUR" }}</div>
       <div class="col">
         <input
           matInput
@@ -31,17 +34,17 @@
           class="tabular-input"
         />
       </div>
-      <div class="col">
+      <div class="col text-center">
         {{ socialContributionWithholding | currency: "EUR" }}
       </div>
     </div>
     <div class="row">
       <div class="col">IRPEF</div>
-      <div class="col" [matTooltip]="incomeTaxableAmountTooltip">
+      <div class="col text-center" [matTooltip]="incomeTaxableAmountTooltip">
         {{ incomeTaxableAmount | currency: "EUR" }}
       </div>
-      <div class="col">-</div>
-      <div class="col">
+      <div class="col text-center">-</div>
+      <div class="col text-center">
         <input
           matInput
           type="number"
@@ -51,7 +54,9 @@
           class="tabular-input"
         />
       </div>
-      <div class="col">{{ incomeTaxWithholding | currency: "EUR" }}</div>
+      <div class="col text-center">
+        {{ incomeTaxWithholding | currency: "EUR" }}
+      </div>
     </div>
     <mat-divider class="m-2"></mat-divider>
     <div class="row">
@@ -60,7 +65,7 @@
     <div class="row">
       <div class="row">
         <div class="col">Arrotondamento Netto</div>
-        <div class="col" [matTooltip]="netRoundingTooltip">
+        <div class="col text-center" [matTooltip]="netRoundingTooltip">
           {{ netRounding | currency: "EUR" }}
         </div>
       </div>

@@ -22,6 +22,7 @@ import { MatCardModule } from '@angular/material/card';
 import { OtherCompensationsFormSectionComponent } from './other-compensations-form-section/other-compensations-form-section.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SalaryInputFormComponent } from './salary-input-form/salary-input-form.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { SalaryInputFormComponent } from './salary-input-form/salary-input-form.
     MatCheckboxModule,
     MatCardModule,
     MatTooltipModule,
+    MatAutocompleteModule,
   ],
 })
 export class PaychecksModule {}
