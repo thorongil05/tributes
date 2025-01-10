@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Bond } from 'src/app/model/bond';
-import { BondConstants } from 'src/app/model/bond-constants';
-import { BondType } from 'src/app/model/bond-type';
-import { InvestmentsService } from 'src/app/services/investments.service';
+import { Bond } from 'src/app/features/investments/model/bond';
+import { BondConstants } from 'src/app/features/investments/model/bond-constants';
+import { BondType } from 'src/app/features/investments/model/bond-type';
+import { InvestmentsService } from 'src/app/features/investments/services/investments.service';
 
 @Component({
   selector: 'app-bond-forecaster',
@@ -11,10 +11,10 @@ import { InvestmentsService } from 'src/app/services/investments.service';
   styleUrls: ['./bond-forecaster.component.scss'],
 })
 export class BondForecasterComponent implements OnInit {
-  private _selectedBondType?: BondType | undefined;
+  private _selectedBondType: BondType | undefined;
   private _bond?: Bond;
   private _bondTypes: BondType[] = [];
-  private _formGroup: FormGroup = new FormGroup({
+  private readonly _formGroup: FormGroup = new FormGroup({
     name: new FormControl('', [
       Validators.required,
       Validators.pattern(BondConstants.FINECO_NAME_PATTERN),
@@ -25,7 +25,7 @@ export class BondForecasterComponent implements OnInit {
     ]),
   });
 
-  constructor(private investmentsService: InvestmentsService) {}
+  constructor(private readonly investmentsService: InvestmentsService) {}
 
   ngOnInit(): void {
     this._bondTypes = this.investmentsService.getBondTypes();
@@ -65,7 +65,7 @@ export class BondForecasterComponent implements OnInit {
     }
     this.bond = this.investmentsService.extractBondDataFromName(
       this.formGroup.get('name')?.value,
-      BondType.BTP
+      BondType.BTP,
     );
   }
 }

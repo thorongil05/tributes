@@ -1,3 +1,4 @@
+import { RemainingPeriod } from './investments';
 import { BondType } from './bond-type';
 
 export interface Bond {
@@ -5,5 +6,5 @@ export interface Bond {
   type: BondType;
   expirationDate: Date;
   annualCoupon: number; // Cedola annuale
-  remainingPeriod: number;
+  remainingPeriod: RemainingPeriod;
 }

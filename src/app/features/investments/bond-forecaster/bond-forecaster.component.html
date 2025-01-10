@@ -94,11 +94,11 @@
       </div>
       <div class="d-flex justify-content-between">
         <span>Scadenza</span>
-        <span>{{ bond?.expirationDate | date : "d/M/yyyy" }}</span>
+        <span>{{ bond?.expirationDate | date: "d/M/yyyy" }}</span>
       </div>
       <div class="d-flex justify-content-between">
         <span>Periodo rimanente</span>
-        <span>{{ bond?.remainingPeriod }}</span>
+        <span>{{ bond?.remainingPeriod?.years }} anni</span>
       </div>
     </div>
   </div>
