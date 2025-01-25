@@ -11,11 +11,17 @@ import { InvestmentsService } from 'src/app/features/investments/services/invest
   styleUrls: ['./bond-forecaster.component.scss'],
 })
 export class BondForecasterComponent implements OnInit {
-  private _selectedBondType: BondType | undefined;
   private _bond?: Bond;
   private _bondTypes: BondType[] = [];
+
+  private readonly _bondTypeFormGroup: FormGroup = new FormGroup({
+    bondTypeFormControl: new FormControl<BondType>(BondType.BTP, [
+      Validators.required,
+    ]),
+  });
+
   private readonly _formGroup: FormGroup = new FormGroup({
-    name: new FormControl('', [
+    nameFormControl: new FormControl('', [
       Validators.required,
       Validators.pattern(BondConstants.FINECO_NAME_PATTERN),
     ]),
@@ -23,6 +29,7 @@ export class BondForecasterComponent implements OnInit {
       Validators.required,
       Validators.pattern(BondConstants.ISIN_PATTERN),
     ]),
+    currentValueFormControl: new FormControl<number>(0),
   });
 
   constructor(private readonly investmentsService: InvestmentsService) {}
@@ -31,11 +38,8 @@ export class BondForecasterComponent implements OnInit {
     this._bondTypes = this.investmentsService.getBondTypes();
   }
 
-  public get selectedBondType(): BondType | undefined {
-    return this._selectedBondType;
-  }
-  public set selectedBondType(value: BondType | undefined) {
-    this._selectedBondType = value;
+  public get bondTypeFormGroup(): FormGroup {
+    return this._bondTypeFormGroup;
   }
 
   public get bondTypes(): BondType[] {
@@ -54,7 +58,8 @@ export class BondForecasterComponent implements OnInit {
   }
 
   public isBTPSelected() {
-    return this.selectedBondType == BondType.BTP;
+    console.log(this.bondTypeFormGroup.value);
+    return this.bondTypeFormGroup.value['bondTypeFormControl'] == BondType.BTP;
   }
 
   public compute() {

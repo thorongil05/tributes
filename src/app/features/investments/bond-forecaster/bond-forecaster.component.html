@@ -1,78 +1,96 @@
 <div class="container">
   <h2>Previsioni</h2>
   <div class="row">
-    <select
-      [(ngModel)]="selectedBondType"
-      class="form-select"
-      aria-label="Default select example"
-    >
-      <option *ngFor="let bondType of bondTypes" [ngValue]="bondType">
-        {{ bondType }}
-      </option>
-    </select>
+    <form [formGroup]="bondTypeFormGroup">
+      <mat-form-field appearance="outline">
+        <mat-label>Tipologia BOND</mat-label>
+        <mat-select formControlName="bondTypeFormControl">
+          @for (item of bondTypes; track $index) {
+            <mat-option [value]="item">{{ item }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </form>
   </div>
   <br />
   <div class="row" *ngIf="isBTPSelected()">
     <div class="col-6">
       <div class="h3">Dati</div>
       <form action="" [formGroup]="formGroup" (submit)="compute()">
-        <label for="nameInput" class="form-label">Nome obbligazione</label>
-        <input
-          id="nameInput"
-          type="text"
-          class="form-control"
-          formControlName="name"
-          placeholder="BTP-DDMMYY X.XX%"
-        />
-        <div
-          *ngIf="
-            formGroup.get('name')?.invalid &&
-            formGroup.get('name')?.errors &&
-            (formGroup.get('name')?.dirty || formGroup.get('name')?.touched)
-          "
-        >
-          <small
-            class="text-danger"
-            *ngIf="formGroup.get('name')?.hasError('required')"
+        <div class="row">
+          <mat-form-field appearance="outline">
+            <mat-label>Nome obbligazione</mat-label>
+            <input
+              matInput
+              type="text"
+              formControlName="nameFormControl"
+              placeholder="BTP-DDMMYY X.XX%"
+            />
+          </mat-form-field>
+          <div
+            *ngIf="
+              formGroup.get('name')?.invalid &&
+              formGroup.get('name')?.errors &&
+              (formGroup.get('name')?.dirty || formGroup.get('name')?.touched)
+            "
           >
-            Il campo é obbligatorio.
-          </small>
-          <small
-            class="text-danger"
-            *ngIf="formGroup.get('name')?.hasError('pattern')"
-          >
-            Il campo non rispetta l'espressione regolare.
-          </small>
+            <small
+              class="text-danger"
+              *ngIf="formGroup.get('name')?.hasError('required')"
+            >
+              Il campo é obbligatorio.
+            </small>
+            <small
+              class="text-danger"
+              *ngIf="formGroup.get('name')?.hasError('pattern')"
+            >
+              Il campo non rispetta l'espressione regolare.
+            </small>
+          </div>
         </div>
         <br />
-        <label class="form-label" for="isinInput">ISIN</label>
-        <input
-          id="isinInput"
-          class="form-control"
-          type="text"
-          formControlName="isin"
-          placeholder="ITXXXXXXXXXY"
-          [class.invalid]="true"
-        />
-        <div
-          *ngIf="
-            formGroup.get('isin')?.invalid &&
-            formGroup.get('isin')?.errors &&
-            (formGroup.get('isin')?.dirty || formGroup.get('isin')?.touched)
-          "
-        >
-          <small
-            class="text-danger"
-            *ngIf="formGroup.get('isin')?.hasError('required')"
+        <div class="row">
+          <mat-form-field appearance="outline">
+            <mat-label>ISIN</mat-label>
+            <input
+              matInput
+              type="text"
+              formControlName="isin"
+              placeholder="ITXXXXXXXXXY"
+            />
+          </mat-form-field>
+          <div
+            *ngIf="
+              formGroup.get('isin')?.invalid &&
+              formGroup.get('isin')?.errors &&
+              (formGroup.get('isin')?.dirty || formGroup.get('isin')?.touched)
+            "
           >
-            Il campo é obbligatorio.
-          </small>
-          <small
-            class="text-danger"
-            *ngIf="formGroup.get('isin')?.hasError('pattern')"
-          >
-            Il campo non rispetta l'espressione regolare.
-          </small>
+            <small
+              class="text-danger"
+              *ngIf="formGroup.get('isin')?.hasError('required')"
+            >
+              Il campo é obbligatorio.
+            </small>
+            <small
+              class="text-danger"
+              *ngIf="formGroup.get('isin')?.hasError('pattern')"
+            >
+              Il campo non rispetta l'espressione regolare.
+            </small>
+          </div>
+        </div>
+        <br />
+        <div class="row">
+          <mat-form-field appearance="outline">
+            <mat-label>Inserisci Prezzo Corrente</mat-label>
+            <input
+              matInput
+              type="number"
+              min="0"
+              formControlName="currentValueFormControl"
+            />
+          </mat-form-field>
         </div>
         <br />
         <div class="row">
@@ -90,7 +108,7 @@
       <h3>Dati derivati</h3>
       <div class="d-flex justify-content-between">
         <span>Cedola annuale</span>
-        <span>{{ bond?.annualCoupon | percent }}</span>
+        <span>{{ bond?.annualCoupon | percent: "1.2-2" }}</span>
       </div>
       <div class="d-flex justify-content-between">
         <span>Scadenza</span>

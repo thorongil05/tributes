@@ -24,7 +24,8 @@ export class InvestmentsService {
         let dayOfTheMonth = Number.parseInt(groupList[2]);
         let expirationDate = new Date();
         expirationDate.setFullYear(year, month, dayOfTheMonth);
-        let annualCoupon = Number.parseFloat(groupList[5]);
+        let annualCoupon =
+          Number.parseFloat(groupList[5].replace(',', '.')) / 100;
         return {
           fullName: name,
           expirationDate: expirationDate,
