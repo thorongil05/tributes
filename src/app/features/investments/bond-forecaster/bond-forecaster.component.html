@@ -26,27 +26,13 @@
               formControlName="nameFormControl"
               placeholder="BTP-DDMMYY X.XX%"
             />
+            @if (formGroup.get("nameFormControl")?.hasError("required")) {
+              <mat-error>Name is <strong>required</strong></mat-error>
+            }
+            @if (formGroup.get("nameFormControl")?.hasError("pattern")) {
+              <mat-error>Name must respect pattern</mat-error>
+            }
           </mat-form-field>
-          <div
-            *ngIf="
-              formGroup.get('name')?.invalid &&
-              formGroup.get('name')?.errors &&
-              (formGroup.get('name')?.dirty || formGroup.get('name')?.touched)
-            "
-          >
-            <small
-              class="text-danger"
-              *ngIf="formGroup.get('name')?.hasError('required')"
-            >
-              Il campo é obbligatorio.
-            </small>
-            <small
-              class="text-danger"
-              *ngIf="formGroup.get('name')?.hasError('pattern')"
-            >
-              Il campo non rispetta l'espressione regolare.
-            </small>
-          </div>
         </div>
         <br />
         <div class="row">
@@ -58,27 +44,13 @@
               formControlName="isin"
               placeholder="ITXXXXXXXXXY"
             />
+            @if (formGroup.get("isin")?.hasError("required")) {
+              <mat-error>ISIN is <strong>required</strong></mat-error>
+            }
+            @if (formGroup.get("isin")?.hasError("pattern")) {
+              <mat-error>ISIN must respect pattern</mat-error>
+            }
           </mat-form-field>
-          <div
-            *ngIf="
-              formGroup.get('isin')?.invalid &&
-              formGroup.get('isin')?.errors &&
-              (formGroup.get('isin')?.dirty || formGroup.get('isin')?.touched)
-            "
-          >
-            <small
-              class="text-danger"
-              *ngIf="formGroup.get('isin')?.hasError('required')"
-            >
-              Il campo é obbligatorio.
-            </small>
-            <small
-              class="text-danger"
-              *ngIf="formGroup.get('isin')?.hasError('pattern')"
-            >
-              Il campo non rispetta l'espressione regolare.
-            </small>
-          </div>
         </div>
         <br />
         <div class="row">
